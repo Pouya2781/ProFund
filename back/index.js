@@ -36,9 +36,9 @@ app.use(errorMiddleware);
 // routers
 app.use("/api/auth", authRouter);
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/react/build/index.html");
-});
+// app.get("/", (req, res) => {
+//     res.sendFile(__dirname + "/react/build/index.html");
+// });
 
 // start server and syncing with database
 const port = process.env.PORT || 3000;

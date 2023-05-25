@@ -3,42 +3,35 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class tokens extends Model {
+  class Invest extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({Projects, Invests}) {
+    static associate({User, Token}) {
       // define association here
-      this.belongsTo(Projects, {foreignKey: "projectId"})
-      this.hasMany(Invests, {foreignKey: "tokenId"})
+      this.belongsTo(User, {foreignKey: "userId"})
+      this.belongsTo(Token, {foreignKey: "tokenId"})
     }
   }
-  tokens.init({
+  Invest.init({
     uuid: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    price: {
+    count: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    limit:{
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false
     },
     creation_date: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'tokens',
+    modelName: 'Invest',
+    tableName: 'invests'
   });
-  return tokens;
+  return Invest;
 };

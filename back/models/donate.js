@@ -3,25 +3,25 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class replies extends Model {
+  class Donate extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({Comments, User}) {
+    static associate({Project, User}) {
       // define association here
-      this.belongsTo(Comments, {foreignKey: "commentId"})
+      this.belongsTo(Project, {foreignKey: "projectId"})
       this.belongsTo(User, {foreignKey: "userId"})
     }
   }
-  replies.init({
+  Donate.init({
     uuid: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    message: {
-      type: DataTypes.STRING,
+    amount: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     creation_date: {
@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'replies',
+    modelName: 'Donate',
+    tableName: 'donates'
   });
-  return replies;
+  return Donate;
 };
