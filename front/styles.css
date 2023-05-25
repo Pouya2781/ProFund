@@ -1,0 +1,858 @@
+@charset "utf-8";
+
+:root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray: #d9d9d9;
+    --lightgray: #e8e8e8;
+    --icegray: #ededed;
+    --nicegray: #a3a3a3;
+    --blue: #00A3FF;
+    --wetblue: #12c9e3;
+    --green: #6dd67e;
+    --red: #ff0000;
+    --pink: #f3cfcf;
+}
+
+@font-face {
+    font-family: myFont;
+    src: url("fonts/B Koodak Bold.ttf");
+}
+
+* {
+    direction: rtl;
+}
+
+.wrapper {
+    width: 80%;
+    background-color: var(--lightgray);
+    height: auto;
+    float: left;
+
+}
+
+.aside {
+    width: 20%;
+    background-color: var(--white);
+    height: 1000px;
+    float: left;
+}
+
+.header {
+    background-color: var(--white);
+    width: 100%;
+    height: 90px;
+}
+
+.logo {
+    width: 90px;
+    height: 90px;
+    float: right;
+}
+
+.logo img {
+    width: 90px;
+    height: 90px;
+    display: block;
+}
+
+.logo img:hover {
+    opacity: 0.9;
+}
+
+.navbar {
+    width: 60%;
+    height: 90px;
+    float: right;
+}
+
+ul {
+    list-style: none;
+    display: inline-block;
+}
+
+li {
+    display: inline-block;
+    width: 130px;
+    text-align: center;
+    font-size: 20px;
+    float: right;
+    margin-top: 15px;
+    padding: 0 10px;
+}
+
+li:hover {
+    border-bottom: 2px solid var(--lightgray);
+}
+
+li:nth-child(2) {
+    padding: 0 40px 0 0px;
+    width: 100px;
+}
+
+ul li img {
+    width: 20px;
+    height: 20px;
+    float: right;
+    padding: 0 10px;
+    margin-top: 8px
+}
+
+ul li img:first-child {
+    margin-top: 5px
+}
+
+ul li a {
+    text-decoration: none;
+    color: var(--black);
+    display: block;
+    float: right;
+    font-family: myFont;
+    text-align: center;
+}
+
+.controller {
+    width: 30%;
+
+    height: 90px;
+    float: right;
+}
+
+.controller span {
+    display: block;
+    float: right;
+    background-color: var(--icegray);
+    padding: 9px;
+    font-family: sans-serif;
+    font-size: 25px;
+    margin: 20px 10px;
+    border-radius: 20px;
+}
+
+.controller span:hover {
+    background-color: var(--gray);
+}
+
+.controller span:first-child {
+    margin-right: 50px;
+}
+
+.controller button {
+    border: none;
+    padding: 10px 5px;
+    margin: 20px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: var(--icegray);
+    background-image: url(assets/half-moon.png);
+    width: 43px;
+    height: 48px;
+}
+
+.controller button:hover {
+    background-color: var(--gray);
+}
+
+.controller img {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+}
+
+.controller #drop {
+    width: 18px;
+    float: right;
+    padding: 3px;
+}
+
+.contents {
+    width: 90%;
+    margin: auto;
+    height: 1000px;
+}
+
+.contents .progress-bar {
+    height: 120px;
+    width: 90%;
+    margin-top: 40px;
+    position: relative;
+    padding-top: 20px;
+}
+
+.contents .progress-bar .title {
+    font-size: 17px;
+    font-family: myFont;
+    text-align: right;
+    width: 95%;
+    display: flex;
+    position: relative;
+}
+
+.contents .progress-bar .title span:nth-child(1) {
+    margin-right: 70px
+}
+
+.contents .progress-bar .title span:nth-child(2) {
+    margin-right: 110px
+}
+
+.contents .progress-bar .title span:nth-child(3) {
+    margin-right: 90px
+}
+
+.contents .progress-bar .title span:nth-child(4) {
+    margin-right: 140px
+}
+
+.contents .progress-bar .bar {
+    width: 95%;
+    cursor: pointer;
+    position: relative;
+    height: 50px;
+    right: 0;
+}
+
+.contents .progress-bar .bar span {
+    font-family: fantasy;
+    width: 23px;
+    height: 23px;
+    text-align: center;
+    padding: 10px;
+    background-color: var(--blue);
+    border-radius: 30px;
+    color: var(--white);
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    right: 0px;
+    z-index: 2;
+}
+
+.contents .progress-bar .bar span:nth-child(1) {
+    margin-right: 0px;
+}
+
+.contents .progress-bar .bar span:nth-child(2) {
+    margin-right: 200px;
+}
+
+.contents .progress-bar .bar span:nth-child(3) {
+    margin-right: 400px;
+}
+
+.contents .progress-bar .bar span:nth-child(4) {
+    margin-right: 600px;
+}
+
+.contents .progress-bar .bar span:nth-child(5) {
+    margin-right: 800px;
+}
+
+.contents .progress-bar .bar hr {
+    width: 96%;
+    margin-right: 20px;
+    border: 5px solid var(--nicegray);
+    position: absolute;
+    top: 0;
+    margin-top: 15px;
+    z-index: 0;
+}
+
+.contents .progress-bar .bar #per25 {
+    position: absolute;
+    width: 23%;
+    z-index: 1;
+    border-color: var(--wetblue);
+}
+
+.contents .progress-bar .bar #per50 {
+    position: absolute;
+    width: 47%;
+    z-index: 1;
+    border-color: var(--wetblue);
+}
+
+.contents .progress-bar .bar #per75 {
+    position: absolute;
+    width: 74%;
+    z-index: 1;
+    border-color: var(--wetblue);
+}
+
+.contents .progress-bar .bar #per100 {
+    position: absolute;
+    width: 97%;
+    z-index: 1;
+    border-color: var(--wetblue);
+}
+
+#completed {
+    border: 5px solid var(--green);
+}
+
+.contents .info {
+    width: 90%;
+    margin: auto;
+}
+
+.contents .info h1 {
+    width: 97%;
+    font-family: myFont;
+    font-weight: normal;
+    font-size: 25px;
+    padding-right: 30px;
+}
+
+.contents .info .slices {
+    width: 90%;
+    height: auto;
+}
+
+.contents .info .slices .slice1 {
+    background-color: var(--white);
+    width: 49%;
+    height: 730px;
+    float: right;
+    margin-left: 10px;
+    border-radius: 25px;
+    font-family: myFont;
+    font-weight: normal;
+    margin-right: auto;
+}
+
+.contents .info .slices .slice1 h2 {
+    color: var(--black);
+    font-size: 23px;
+    padding-right: 25px;
+}
+
+.contents .info .slices .slice1 h3 {
+    color: var(--black);
+    font-size: 20px;
+    padding-right: 45px;
+}
+
+.contents .info .slices .slice1 p {
+    color: var(--nicegray);
+    font-size: 18px;
+    padding-right: 60px;
+}
+
+.contents .info .slices .slice1 span {
+    background-color: var(--gray);
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: auto;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.contents .info .slices .slice2 {
+    background-color: var(--white);
+    width: 49%;
+    height: 730px;
+    float: right;
+    border-radius: 25px;
+    font-family: myFont;
+    font-weight: normal;
+}
+
+.contents .info .slices .slice2 h2 {
+    color: var(--black);
+    font-size: 23px;
+    padding-right: 25px;
+}
+
+.contents .info .slices .slice2 h3 {
+    color: var(--black);
+    font-size: 20px;
+    padding-right: 45px;
+}
+
+.contents .info .slices .slice2 p {
+    color: var(--nicegray);
+    font-size: 18px;
+    padding-right: 60px;
+}
+
+.contents .info .more-info {
+    background-color: var(--white);
+    height: 300px;
+    width: 100%;
+    float: right;
+    margin-top: 40px;
+    border-radius: 25px;
+}
+
+.contents .info .more-info h3 {
+    color: var(--black);
+    font-size: 20px;
+    padding-right: 45px;
+    font-family: myFont;
+    font-weight: normal;
+}
+
+.contents .info input {
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    background-color: var(--blue);
+    color: var(--white);
+    font-family: myFont;
+    font-size: 19px;
+    border: none;
+    padding: 5px 30px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.contents .info input:hover {
+    background-color: var(--wetblue);
+}
+
+.aside img {
+    text-align: center;
+    display: block;
+    width: 130px;
+    height: 130px;
+    margin: auto;
+}
+
+.aside img:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.aside h4 {
+    text-align: center;
+    font-family: myFont;
+    font-size: 20px;
+    line-height: 10px
+}
+
+.aside h5 {
+    text-align: center;
+    font-size: 20px;
+    font-family: fantasy;
+    line-height: 5px;
+    margin-bottom: 60px;
+}
+
+.aside span {
+    background: var(--blue);
+    display: block;
+    font-family: myFont;
+    font-size: 18px;
+    text-align: center;
+    width: 50%;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 20px;
+    padding: 5px;
+    color: var(--white);
+}
+
+.aside span:hover {
+    background: var(--wetblue);
+    cursor: pointer;
+    color: var(--black);
+}
+
+.aside span img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    padding: 0 7px;
+    float: right;
+    margin-top: 5px;
+}
+
+.aside span:nth-child(5) {
+    margin-bottom: 50px;
+}
+
+.aside span:nth-child(6) {
+    background-color: var(--gray);
+    color: var(--black);
+    width: 70%;
+    text-align: right
+}
+
+.aside span:nth-child(6):hover {
+    background-color: gray;
+    color: var(--black);
+    width: 70%;
+    text-align: right
+}
+
+.aside span:nth-child(7) {
+    background-color: var(--gray);
+    color: var(--black);
+    width: 70%;
+    text-align: right
+}
+
+.aside span:nth-child(7):hover {
+    background-color: gray;
+    color: var(--black);
+    width: 70%;
+    text-align: right
+}
+
+.aside span:nth-child(8) {
+    background-color: var(--gray);
+    color: var(--black);
+    width: 70%;
+    text-align: right
+}
+
+.aside span:nth-child(8):hover {
+    background-color: gray;
+    color: var(--black);
+    width: 70%;
+    text-align: right
+}
+
+.aside span:nth-child(9) {
+    background-color: var(--gray);
+    color: var(--black);
+    width: 70%;
+    text-align: right;
+    margin-bottom: 200px;
+}
+
+.aside span:nth-child(9):hover {
+    background-color: gray;
+    color: var(--black);
+    width: 70%;
+    text-align: right;
+    margin-bottom: 200px;
+}
+
+.aside span:nth-child(10) {
+    background-color: var(--pink);
+    color: var(--black);
+    width: 35%;
+    text-align: right;
+}
+
+.aside span:nth-child(10):hover {
+    background-color: palevioletred;
+    color: var(--black);
+    width: 35%;
+    text-align: right;
+}
+
+.contents .info .message {
+    width: 88%;
+    height: 84px;
+    margin: auto;
+    background-color: var(--green);
+    float: right;
+    border-radius: 40px;
+}
+
+.contents .info .message img {
+    width: 30px;
+    height: 30px;
+    float: right;
+    display: block;
+    margin: 24px 20px 0 10px;
+}
+
+.contents .info .message p {
+    font-family: myFont;
+    display: block;
+    font-size: 20px;
+    float: right;
+    margin-top: 25px;
+}
+
+#return {
+    background-color: var(--lightgray);
+    color: var(--black);
+    margin-left: 20px;
+}
+
+#return:hover {
+    background-color: var(--gray);
+}
+
+#alert {
+    display: block;
+    float: right;
+    background-color: var(--red);
+    margin: 20px 10px 0 0;
+    border-radius: 20px;
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    position: absolute;
+}
+
+.spaceup {
+    padding-top: 50px;
+}
+
+.info .col1 {
+    width: 50%;
+    height: auto;
+    float: right;
+}
+
+.info .col1 input {
+    width: 90%;
+    float: right;
+    background: white;
+    border-radius: 10px;
+    margin: 0px;
+    padding: 5px;
+    font-size: 18px;
+    outline: none;
+    cursor: default;
+    color: black;
+    font-family: myFont;
+}
+
+.info .col1 textarea {
+    width: 88%;
+    float: right;
+    background: white;
+    border-radius: 20px;
+    margin: 0px;
+    padding: 5px 10px;
+    font-size: 18px;
+    outline: none;
+    cursor: default;
+    color: black;
+    font-family: myFont;
+    border: none;
+}
+
+.info .col1 h3 {
+    float: right;
+    font-family: myFont;
+    font-size: 23px;
+    line-height: 0px;
+    display: block;
+    margin: 30px 0px;
+}
+
+.info .col2 {
+    width: 40%;
+    height: 300px;
+    float: right;
+    padding: 15px;
+    display: flex;
+    text-align: center;
+    background: var(--nicegray);
+    margin-top: 30px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.info .col2 input {
+    display: none;
+}
+
+.info .col2 label {
+    margin: auto;
+    display: block;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.info .col2 label b {
+    font-size: 50px;
+    line-height: 0px;
+    font-weight: bold;
+}
+
+#imageName {
+    color: white;
+}
+
+.info .next-button {
+    float: right;
+    width: 94%;
+    height: 100px;
+}
+
+#next {
+    float: left;
+    margin-top: 15px;
+}
+
+.text-editor {
+    width: 93%;
+    height: 500px;
+    background: white
+}
+
+.text-editor .navs {
+    background: white;
+    border-bottom: 2px solid var(--lightgray);
+    direction: ltr;
+    padding: 10px
+}
+
+.text-editor .navs select {
+    margin-right: 15px;
+    direction: ltr;
+    padding-right: 10px;
+    border: none;
+    outline: none;
+}
+
+.text-editor .navs input {
+    display: none;
+}
+
+.text-editor .navs span {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.text-editor textarea {
+    background: white;
+    width: 97%;
+    direction: ltr;
+    margin-right: 3px;
+    padding: 10px;
+    border: none;
+    height: 87%;
+    outline: none;
+}
+
+.support {
+    width: 93%;
+    height: 300px;
+    display: flex;
+}
+
+.support .donate {
+    width: 45%;
+    background: white;
+    height: 88%;
+    margin: auto;
+    border-radius: 20px;
+    padding: 10px 15px;
+}
+
+.support .donate h3 {
+    font-size: 25px;
+    line-height: 0px;
+    font-family: myFont;
+    float: right;
+    display: block;
+}
+
+.support .donate button {
+    float: left;
+    font-size: 18px;
+    font-family: myFont;
+    color: white;
+    background-color: var(--blue);
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    padding: 1px 10px;
+    border-radius: 15px;
+    margin: 12px 0px 0px 5px;
+}
+
+.support .token {
+    width: 45%;
+    background: white;
+    height: 88%;
+    margin: auto;
+    border-radius: 20px;
+    padding: 10px 15px;
+
+}
+
+.support .token h3 {
+    font-size: 25px;
+    line-height: 0px;
+    font-family: myFont;
+    float: right;
+    display: block;
+}
+
+.support .token button {
+    float: left;
+    font-size: 18px;
+    font-family: myFont;
+    color: white;
+    background-color: var(--blue);
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    padding: 1px 10px;
+    border-radius: 15px;
+    margin: 12px 0px 0px 5px;
+}
+
+#overlay{
+    background: #111;
+    opacity: .8;
+    width: 100%;
+    height: 174%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    display: none;
+}
+
+#getDonate, #getToken{
+    float: right;
+    width: 600px;
+    height: 200px;
+    background: var(--lightgray);
+    opacity: 1;
+    position: absolute;
+    z-index: 3;
+    border-radius: 40px;
+    font-family: myFont;
+    top: 0;
+    right: 0;
+    margin-right: 400px;
+    margin-top: 230px;
+    display: none;
+}
+
+#getDonate h2, #getToken h2{
+    display: block;
+    margin: 10px 30px;
+    font-size: 25px;
+}
+#getDonate input, #getToken input{
+    display: block;
+    margin: 10px 30px;
+    font-size: 20px;
+    border:none;
+    width:400px;
+    padding: 5px 10px;
+    margin: auto;
+    border-radius: 15px;
+    font-family: myFont;
+    outline: none;
+}
+
+
+#getDonate button, #getToken button{
+    color: white;
+    font-size: 19px;
+    background-color: var(--blue);
+    font-family: myFont;
+    width: 100px;
+    margin: 15px auto;
+    display: block;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
