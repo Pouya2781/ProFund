@@ -3,6 +3,9 @@ const _ = require("lodash");
 const auth = require("../middleware/auth");
 const asyncMiddleware = require("../middleware/async");
 const { validateUserVerificationData } = require("../validators/user");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
 const express = require("express");
 const router = express.Router();
 
@@ -58,7 +61,7 @@ router.get("/payment", auth, asyncMiddleware(async (req, res) => {
             walletId: wallet.id
         }
     });
-    
+
 
     res.status(200).json({
         data: payments,
@@ -79,7 +82,7 @@ router.get("/projects", auth, asyncMiddleware(async (req, res) => {
             userId: user.id
         }
     });
-    
+
 
     res.status(200).json({
         data: projects,
@@ -100,7 +103,7 @@ router.get("/investments", auth, asyncMiddleware(async (req, res) => {
             userId: user.id
         }
     });
-    
+
 
     res.status(200).json({
         data: investments,
@@ -138,4 +141,72 @@ router.post("/verify", auth, asyncMiddleware(async (req, res) => {
         message: "user data updated and completed successfully!",
         status: "ok"
     });
+}));
+
+router.post("/upload-id-card-pic", auth, multer({ dest: "resources/id_card_pic" }).single("image"), asyncMiddleware(async (req, res) => {
+    // Finding the user according to uuid stored in jwt
+    const user = await User.findOne({
+        where: {
+            uuid: req.user.uuid
+        }
+    });
+
+    // Deleting the previous image
+    await fs.unlink(user.id_card_pic)
+
+    if (!req.file) {
+        return res.state(400).json({
+            message: "No file uploaded!",
+            status: "fail"
+        })
+    }
+    res.status(200).json({
+        message: "id card image uploaded successfully!",
+        status: "ok"
+    });
+}));
+
+router.post("/upload-profile-pic", auth, multer({ dest: "resources/profile_pic" }).single("image"), asyncMiddleware(async (req, res) => {
+    // Finding the user according to uuid stored in jwt
+    const user = await User.findOne({
+        where: {
+            uuid: req.user.uuid
+        }
+    });
+
+    // Deleting the previous image
+    await fs.unlink(user.profile_pic)
+
+    if (!req.file) {
+        return res.state(400).json({
+            message: "No file uploaded!",
+            status: "fail"
+        })
+    }
+    res.status(200).json({
+        message: "profile image image uploaded successfully!",
+        status: "ok"
+    });
+}));
+
+router.get("/id-card-pic", auth, asyncMiddleware(async (req, res) => {
+    // Finding the user according to uuid stored in jwt
+    const user = await User.findOne({
+        where: {
+            uuid: req.user.uuid
+        }
+    });
+
+    res.status(200).sendFile(path.join(__dirname, user.id_card_pic));
+}));
+
+router.get("/profile-pic", auth, asyncMiddleware(async (req, res) => {
+    // Finding the user according to uuid stored in jwt
+    const user = await User.findOne({
+        where: {
+            uuid: req.user.uuid
+        }
+    });
+
+    res.status(200).sendFile(path.join(__dirname, user.profile_pic));
 }));
