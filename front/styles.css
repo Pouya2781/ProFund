@@ -8,7 +8,7 @@
     --icegray: #ededed;
     --nicegray: #a3a3a3;
     --blue: #00A3FF;
-    --wetblue: #7ec9f3;
+    --wetblue: #12c9e3;
     --green: #6dd67e;
     --red: #ff0000;
     --pink: #f3cfcf;
@@ -16,7 +16,7 @@
 
 @font-face {
     font-family: myFont;
-    src: url("/fonts/B Koodak Bold.ttf");
+    src: url("fonts/B Koodak Bold.ttf");
 }
 
 * {
@@ -82,8 +82,7 @@ li {
 }
 
 li:hover {
-    background-color: var(--lightgray);
-    color: ;
+    border-bottom: 2px solid var(--lightgray);
 }
 
 li:nth-child(2) {
@@ -100,7 +99,7 @@ ul li img {
 }
 
 ul li img:first-child {
-    margin-top: 0px
+    margin-top: 5px
 }
 
 ul li a {
@@ -138,6 +137,22 @@ ul li a {
     margin-right: 50px;
 }
 
+.controller button {
+    border: none;
+    padding: 10px 5px;
+    margin: 20px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: var(--icegray);
+    background-image: url(assets/half-moon.png);
+    width: 43px;
+    height: 48px;
+}
+
+.controller button:hover {
+    background-color: var(--gray);
+}
+
 .controller img {
     width: 25px;
     height: 25px;
@@ -159,40 +174,45 @@ ul li a {
 .contents .progress-bar {
     height: 120px;
     width: 90%;
-    margin: auto;
     margin-top: 40px;
+    position: relative;
+    padding-top: 20px;
 }
 
 .contents .progress-bar .title {
-    padding-top: 20px;
     font-size: 17px;
     font-family: myFont;
     text-align: right;
-    width: 100%;
+    width: 95%;
+    display: flex;
+    position: relative;
 }
 
-.contents .progress-bar .title span {
-    margin: 0px 70px 0px 6px;
-    display: inline-block
+.contents .progress-bar .title span:nth-child(1) {
+    margin-right: 70px
 }
 
 .contents .progress-bar .title span:nth-child(2) {
-    margin-left: -5px;
+    margin-right: 110px
 }
 
 .contents .progress-bar .title span:nth-child(3) {
-    margin-left: 34px;
+    margin-right: 90px
+}
+
+.contents .progress-bar .title span:nth-child(4) {
+    margin-right: 140px
 }
 
 .contents .progress-bar .bar {
-    display: block;
-    width: 100%;
-    margin: auto;
-    text-align: right;
+    width: 95%;
+    cursor: pointer;
+    position: relative;
+    height: 50px;
+    right: 0;
 }
 
 .contents .progress-bar .bar span {
-    display: inline-block;
     font-family: fantasy;
     width: 23px;
     height: 23px;
@@ -200,21 +220,70 @@ ul li a {
     padding: 10px;
     background-color: var(--blue);
     border-radius: 30px;
-    margin: 0 130px 0 0;
     color: var(--white);
     font-weight: bold;
     font-size: 20px;
+    position: absolute;
+    right: 0px;
+    z-index: 2;
 }
 
-.contents .progress-bar .bar span:first-child {
-    margin: 0;
+.contents .progress-bar .bar span:nth-child(1) {
+    margin-right: 0px;
+}
+
+.contents .progress-bar .bar span:nth-child(2) {
+    margin-right: 200px;
+}
+
+.contents .progress-bar .bar span:nth-child(3) {
+    margin-right: 400px;
+}
+
+.contents .progress-bar .bar span:nth-child(4) {
+    margin-right: 600px;
+}
+
+.contents .progress-bar .bar span:nth-child(5) {
+    margin-right: 800px;
 }
 
 .contents .progress-bar .bar hr {
-    margin: -25px;
-    width: 80%;
+    width: 96%;
     margin-right: 20px;
-    border: 5px solid var(--wetblue);
+    border: 5px solid var(--nicegray);
+    position: absolute;
+    top: 0;
+    margin-top: 15px;
+    z-index: 0;
+}
+
+.contents .progress-bar .bar #per25 {
+    position: absolute;
+    width: 23%;
+    z-index: 1;
+    border-color: var(--wetblue);
+}
+
+.contents .progress-bar .bar #per50 {
+    position: absolute;
+    width: 47%;
+    z-index: 1;
+    border-color: var(--wetblue);
+}
+
+.contents .progress-bar .bar #per75 {
+    position: absolute;
+    width: 74%;
+    z-index: 1;
+    border-color: var(--wetblue);
+}
+
+.contents .progress-bar .bar #per100 {
+    position: absolute;
+    width: 97%;
+    z-index: 1;
+    border-color: var(--wetblue);
 }
 
 #completed {
@@ -248,6 +317,7 @@ ul li a {
     border-radius: 25px;
     font-family: myFont;
     font-weight: normal;
+    margin-right: auto;
 }
 
 .contents .info .slices .slice1 h2 {
@@ -519,4 +589,270 @@ ul li a {
     height: 15px;
     padding: 0;
     position: absolute;
+}
+
+.spaceup {
+    padding-top: 50px;
+}
+
+.info .col1 {
+    width: 50%;
+    height: auto;
+    float: right;
+}
+
+.info .col1 input {
+    width: 90%;
+    float: right;
+    background: white;
+    border-radius: 10px;
+    margin: 0px;
+    padding: 5px;
+    font-size: 18px;
+    outline: none;
+    cursor: default;
+    color: black;
+    font-family: myFont;
+}
+
+.info .col1 textarea {
+    width: 88%;
+    float: right;
+    background: white;
+    border-radius: 20px;
+    margin: 0px;
+    padding: 5px 10px;
+    font-size: 18px;
+    outline: none;
+    cursor: default;
+    color: black;
+    font-family: myFont;
+    border: none;
+}
+
+.info .col1 h3 {
+    float: right;
+    font-family: myFont;
+    font-size: 23px;
+    line-height: 0px;
+    display: block;
+    margin: 30px 0px;
+}
+
+.info .col2 {
+    width: 40%;
+    height: 300px;
+    float: right;
+    padding: 15px;
+    display: flex;
+    text-align: center;
+    background: var(--nicegray);
+    margin-top: 30px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.info .col2 input {
+    display: none;
+}
+
+.info .col2 label {
+    margin: auto;
+    display: block;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.info .col2 label b {
+    font-size: 50px;
+    line-height: 0px;
+    font-weight: bold;
+}
+
+#imageName {
+    color: white;
+}
+
+.info .next-button {
+    float: right;
+    width: 94%;
+    height: 100px;
+}
+
+#next {
+    float: left;
+    margin-top: 15px;
+}
+
+.text-editor {
+    width: 93%;
+    height: 500px;
+    background: white
+}
+
+.text-editor .navs {
+    background: white;
+    border-bottom: 2px solid var(--lightgray);
+    direction: ltr;
+    padding: 10px
+}
+
+.text-editor .navs select {
+    margin-right: 15px;
+    direction: ltr;
+    padding-right: 10px;
+    border: none;
+    outline: none;
+}
+
+.text-editor .navs input {
+    display: none;
+}
+
+.text-editor .navs span {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.text-editor textarea {
+    background: white;
+    width: 97%;
+    direction: ltr;
+    margin-right: 3px;
+    padding: 10px;
+    border: none;
+    height: 87%;
+    outline: none;
+}
+
+.support {
+    width: 93%;
+    height: 300px;
+    display: flex;
+}
+
+.support .donate {
+    width: 45%;
+    background: white;
+    height: 88%;
+    margin: auto;
+    border-radius: 20px;
+    padding: 10px 15px;
+}
+
+.support .donate h3 {
+    font-size: 25px;
+    line-height: 0px;
+    font-family: myFont;
+    float: right;
+    display: block;
+}
+
+.support .donate button {
+    float: left;
+    font-size: 18px;
+    font-family: myFont;
+    color: white;
+    background-color: var(--blue);
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    padding: 1px 10px;
+    border-radius: 15px;
+    margin: 12px 0px 0px 5px;
+}
+
+.support .token {
+    width: 45%;
+    background: white;
+    height: 88%;
+    margin: auto;
+    border-radius: 20px;
+    padding: 10px 15px;
+
+}
+
+.support .token h3 {
+    font-size: 25px;
+    line-height: 0px;
+    font-family: myFont;
+    float: right;
+    display: block;
+}
+
+.support .token button {
+    float: left;
+    font-size: 18px;
+    font-family: myFont;
+    color: white;
+    background-color: var(--blue);
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    padding: 1px 10px;
+    border-radius: 15px;
+    margin: 12px 0px 0px 5px;
+}
+
+#overlay{
+    background: #111;
+    opacity: .8;
+    width: 100%;
+    height: 174%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    display: none;
+}
+
+#getDonate, #getToken{
+    float: right;
+    width: 600px;
+    height: 200px;
+    background: var(--lightgray);
+    opacity: 1;
+    position: absolute;
+    z-index: 3;
+    border-radius: 40px;
+    font-family: myFont;
+    top: 0;
+    right: 0;
+    margin-right: 400px;
+    margin-top: 230px;
+    display: none;
+}
+
+#getDonate h2, #getToken h2{
+    display: block;
+    margin: 10px 30px;
+    font-size: 25px;
+}
+#getDonate input, #getToken input{
+    display: block;
+    margin: 10px 30px;
+    font-size: 20px;
+    border:none;
+    width:400px;
+    padding: 5px 10px;
+    margin: auto;
+    border-radius: 15px;
+    font-family: myFont;
+    outline: none;
+}
+
+
+#getDonate button, #getToken button{
+    color: white;
+    font-size: 19px;
+    background-color: var(--blue);
+    font-family: myFont;
+    width: 100px;
+    margin: 15px auto;
+    display: block;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
 }
