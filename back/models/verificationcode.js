@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'VerificationCode',
+    tableName: 'verificationcodes'
   });
   return VerificationCode;
 };

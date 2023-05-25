@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class projectDescription extends Model {
+  class ProjectDescription extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(Project,{foreignKey: "projectId"})
     }
   }
-  projectDescription.init({
+  ProjectDescription.init({
     uuid: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
@@ -45,7 +45,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'projectDescription',
+    modelName: 'ProjectDescription',
+    tableName: 'projectdescription'
   });
-  return projectDescription;
+  return ProjectDescription;
 };
