@@ -3,25 +3,30 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class invests extends Model {
+  class Like extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({User, Tokens}) {
+    static associate({Project, User}) {
       // define association here
+      this.belongsTo(Project, {foreignKey: "projectId"})
       this.belongsTo(User, {foreignKey: "userId"})
-      this.belongsTo(Tokens, {foreignKey: "tokenId"})
     }
   }
-  invests.init({
+  Like.init({
     uuid: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    count: {
+    userId: {
       type: DataTypes.INTEGER,
+      allowNull: false
+    },
+
+    liked: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
     creation_date: {
@@ -30,7 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'invests',
+    modelName: 'Like',
+    tableName: 'likes'
   });
-  return invests;
+  return Like;
 };

@@ -3,19 +3,19 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class wallet extends Model {
+  class Wallet extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({User, Payments}) {
+    static associate({User, Payment}) {
       // define association here
       this.belongsTo(User, {foreignKey: "userId"})
-      this.hasMany(Payments, {foreignKey: "walletId"})
+      this.hasMany(Payment, {foreignKey: "walletId"})
     }
   }
-  wallet.init({
+  Wallet.init({
     uuid: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'wallet',
+    modelName: 'Wallet',
+    tableName: 'wallets'
   });
-  return wallet;
+  return Wallet;
 };
