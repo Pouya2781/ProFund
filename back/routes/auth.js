@@ -103,7 +103,7 @@ router.post("/code", asyncMiddleware(async (req, res) => {
         return res.status(200).json({ status: "need_sign_up", message: "Verification code is correct and user needs to sign up!"});
     }
 
-    const token = jwt.sign({ phone_number: req.body.phone_number, role: "user" }, jwtPrivateKey);
+    const token = jwt.sign({ uuid: user.uuid, role: "user" }, jwtPrivateKey);
     res.set('x-auth-token', token);
     res.status(200).json({ status: "ok", message: "Verification code is correct!" });
 }));
@@ -126,7 +126,7 @@ router.post("/add", asyncMiddleware(async (req, res) => {
         return res.status(400).json({ status: "database_error", message: ex.errors[0].message });
     }
 
-    const token = jwt.sign({ phone_number: req.body.phone_number, role: "user" }, jwtPrivateKey);
+    const token = jwt.sign({ uuid: newUser.uuid, role: "user" }, jwtPrivateKey);
     res.set('x-auth-token', token);
     res.status(200).json({
         data: _.pick(newUser, ["phone_number", "full_name", "national_code", "birth_date"]),

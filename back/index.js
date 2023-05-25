@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const Joi = require("joi");
 const authRouter = require("./routes/auth");
+const userRouter = require("./routes/user");
 const express = require("express");
 const winston = require("winston");
 const app = express();
@@ -35,6 +36,7 @@ app.use(errorMiddleware);
 
 // routers
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 // app.get("/", (req, res) => {
 //     res.sendFile(__dirname + "/react/build/index.html");
