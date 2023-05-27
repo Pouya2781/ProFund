@@ -28,7 +28,7 @@ router.post("/number", asyncMiddleware(async (req, res) => {
     // Checking if user already exists
     const user = await User.findOne({
         where: {
-            phone_number: req.body.phone_number
+            phoneNumber: req.body.phoneNumber
         }
     });
 
@@ -37,7 +37,7 @@ router.post("/number", asyncMiddleware(async (req, res) => {
     if (user == null) {
         await sendSms1(code, req);
     } else {
-        await sendSms2(code, user.dataValues.full_name, req);
+        await sendSms2(code, user.dataValues.fullName, req);
     }
 
     // const response = await fetch('http://ippanel.com/api/select', {
@@ -61,13 +61,13 @@ router.post("/number", asyncMiddleware(async (req, res) => {
 
     // Removing previous entry
     await VerificationCode.destroy({
-        where: { phone_number: req.body.phone_number },
+        where: { phoneNumber: req.body.phoneNumber },
     });
     // storing new entry in verification table in database
-    const verCode = await VerificationCode.create({ phone_number: req.body.phone_number, verification_code: code });
+    const verCode = await VerificationCode.create({ phoneNumber: req.body.phoneNumber, verificationCode: code });
 
     res.status(200).json({
-        data: _.pick(verCode, ["phone_number"]),
+        data: _.pick(verCode, ["phoneNumber"]),
         message: "Verification code successfully sent!",
         status: "ok"
     });
@@ -80,8 +80,8 @@ router.post("/code", asyncMiddleware(async (req, res) => {
     // Checking verification code
     const entry = await VerificationCode.findOne({
         where: {
-            phone_number: req.body.phone_number,
-            verification_code: req.body.code
+            phoneNumber: req.body.phoneNumber,
+            verificationCode: req.body.code
         }
     });
     if (entry == null) {
@@ -96,7 +96,7 @@ router.post("/code", asyncMiddleware(async (req, res) => {
     // Checking if user already exists
     const user = await User.findOne({
         where: {
-            phone_number: req.body.phone_number,
+            phoneNumber: req.body.phoneNumber,
         }
     });
     if (user == null) {
@@ -116,11 +116,12 @@ router.post("/add", asyncMiddleware(async (req, res) => {
     let newUser;
     try {
         newUser = await User.create({
-            phone_number: req.body.phone_number,
-            full_name: req.body.full_name,
-            national_code: req.body.national_code,
+            phoneNumber: req.body.phoneNumber,
+            fullName: req.body.fullName,
+            nationalCode: req.body.nationalCode,
             email: req.body.email,
-            birth_date: req.body.birth_date
+            birthDate: req.body.birthDate,
+            verified: false,
         });
     } catch (ex) {
         return res.status(400).json({ status: "database_error", message: ex.errors[0].message });
@@ -129,7 +130,7 @@ router.post("/add", asyncMiddleware(async (req, res) => {
     const token = jwt.sign({ uuid: newUser.uuid, role: "user" }, jwtPrivateKey);
     res.set('x-auth-token', token);
     res.status(200).json({
-        data: _.pick(newUser, ["phone_number", "full_name", "national_code", "birth_date"]),
+        data: _.pick(newUser, ["phoneNumber", "fullName", "nationalCode", "birthDate"]),
         message: "New user added!",
         status: "ok"
     });
@@ -147,7 +148,7 @@ async function sendSms1(code, req) {
             "user": smsUser,
             "pass": smsPass,
             "fromNum": "3000505",
-            "toNum": req.body.phone_number,
+            "toNum": req.body.phoneNumber,
             "patternCode": pattern1,
             "inputData": [
                 { "code": code }
@@ -171,7 +172,7 @@ async function sendSms2(code, name, req) {
             "user": smsUser,
             "pass": smsPass,
             "fromNum": "3000505",
-            "toNum": req.body.phone_number,
+            "toNum": req.body.phoneNumber,
             "patternCode": pattern2,
             "inputData": [
                 { "code": code, "name": name }

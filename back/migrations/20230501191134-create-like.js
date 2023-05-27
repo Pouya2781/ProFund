@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable('Donates', {
+    await queryInterface.createTable('Likes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,13 +21,8 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      amount: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      creation_date: {
-        type: DataTypes.STRING,
-        allowNull: false
+      liked: {
+        type: DataTypes.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Donates');
+    await queryInterface.dropTable('Likes');
   }
 };

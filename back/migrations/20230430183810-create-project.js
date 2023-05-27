@@ -1,8 +1,11 @@
 'use strict';
+
+const { DataTypes } = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable('Invests', {
+    await queryInterface.createTable('Projects', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,16 +20,36 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      tokenId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      count: {
+      goal: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      creation_date: {
+      category: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      investedAmount: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      investorCount: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      hasDonate: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
+      hasToken: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      expirationDate: {
+        type: DataTypes.DATE,
         allowNull: true,
       },
       createdAt: {
@@ -40,6 +63,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Invests');
+    await queryInterface.dropTable('Projects');
   }
 };

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable('Payments', {
+    await queryInterface.createTable('Replies', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,21 +13,16 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      walletId: {
+      commentId: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      amount: {
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      status: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      creation_date: {
-        type: DataTypes.STRING,
-        allowNull: false
+      message: {
+        type: DataTypes.STRING
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Payments');
+    await queryInterface.dropTable('Replies');
   }
 };

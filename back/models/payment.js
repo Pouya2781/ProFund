@@ -26,11 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    creation_date: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    }
   }, {
     sequelize,
     modelName: 'Payment',

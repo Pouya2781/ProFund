@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable('Likes', {
+    await queryInterface.createTable('Tokens', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,13 +15,19 @@ module.exports = {
       },
       projectId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
-      liked: {
-        type: DataTypes.BOOLEAN
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: true
       },
-      creation_date: {
-        type: DataTypes.STRING
+      limit: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +40,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Likes');
+    await queryInterface.dropTable('Tokens');
   }
 };
