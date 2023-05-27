@@ -2,10 +2,10 @@ const Joi = require("joi");
 
 function validateUserVerificationData(body) {
     const schema = Joi.object().keys({
-        full_name: Joi.string().min(3).max(30).required(),
+        fullName: Joi.string().min(3).max(30).required(),
         email: Joi.string().min(5).max(30).email({ tlds: { allow: false } }).required(),
-        birth_date: Joi.string().regex(/^\d{4}-\d{2}-\d{2}$/).required(),
-        national_code: Joi.string().regex(/^\d{10}$/).required(),
+        birthDate: Joi.string().regex(/^\d{4}-\d{2}-\d{2}$/).required(),
+        nationalCode: Joi.string().regex(/^\d{10}$/).required(),
         state: Joi.string().min(3).max(20).required(),
         city: Joi.string().min(3).max(20).required(),
         address: Joi.string().min(3).max(120).required(),

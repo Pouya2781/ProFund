@@ -24,9 +24,6 @@ module.exports = {
       message: {
         type: DataTypes.STRING
       },
-      creation_date: {
-        type: DataTypes.STRING
-      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE
