@@ -25,15 +25,11 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      main_pic: {
+      mainPic: {
         type: DataTypes.STRING,
         allowNull: true,
       },
       presentation: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      creation_date: {
         type: DataTypes.STRING,
         allowNull: true,
       },

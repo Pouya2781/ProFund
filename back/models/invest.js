@@ -23,10 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     count: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    creation_date: {
-      type: DataTypes.STRING,
-      allowNull: false
     }
   }, {
     sequelize,

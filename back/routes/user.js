@@ -18,7 +18,7 @@ router.get("/", auth, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        data: _.pick(newUser, ["phone_number", "full_name", "national_code", "birth_date", "email", "state", "city", "address", "bio"]),
+        data: _.pick(newUser, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email", "state", "city", "address", "bio"]),
         message: "user data retrieved successfully!",
         status: "ok"
     });
@@ -120,10 +120,11 @@ router.post("/verify", auth, asyncMiddleware(async (req, res) => {
     try {
         await User.update(
             {
-                full_name: req.body.full_name,
-                national_code: req.body.national_code,
+                fullName: req.body.fullName,
+                nationalCode: req.body.nationalCode,
                 email: req.body.email,
-                birth_date: req.body.birth_date,
+                verified: true,
+                birthDate: req.body.birthDate,
                 state: req.body.state,
                 city: req.body.city,
                 address: req.body.address,
@@ -152,7 +153,7 @@ router.post("/upload-id-card-pic", auth, multer({ dest: "resources/id_card_pic" 
     });
 
     // Deleting the previous image
-    await fs.unlink(user.id_card_pic)
+    await fs.unlink(user.idCardPic)
 
     if (!req.file) {
         return res.state(400).json({
@@ -175,7 +176,7 @@ router.post("/upload-profile-pic", auth, multer({ dest: "resources/profile_pic" 
     });
 
     // Deleting the previous image
-    await fs.unlink(user.profile_pic)
+    await fs.unlink(user.profilePic)
 
     if (!req.file) {
         return res.state(400).json({
@@ -197,7 +198,7 @@ router.get("/id-card-pic", auth, asyncMiddleware(async (req, res) => {
         }
     });
 
-    res.status(200).sendFile(path.join(__dirname, user.id_card_pic));
+    res.status(200).sendFile(path.join(__dirname, user.idCardPic));
 }));
 
 router.get("/profile-pic", auth, asyncMiddleware(async (req, res) => {
@@ -208,5 +209,5 @@ router.get("/profile-pic", auth, asyncMiddleware(async (req, res) => {
         }
     });
 
-    res.status(200).sendFile(path.join(__dirname, user.profile_pic));
+    res.status(200).sendFile(path.join(__dirname, user.profilePic));
 }));

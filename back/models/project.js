@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Token, {foreignKey: "projectId"})
       this.hasMany(Donate, {foreignKey: "projectId"})
       this.hasMany(Comment, {foreignKey: "projectId"})
-      this.hasOne(Like, {foreignKey: "projectId"})
+      this.hasMany(Like, {foreignKey: "projectId"})
     }
   }
   Project.init({
@@ -25,26 +25,26 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     goal: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     category: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    invested_amount: {
-      type: DataTypes.STRING,
+    investedAmount: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-    investor_count: {
-      type: DataTypes.STRING,
+    investorCount: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-    has_donate: {
+    hasDonate: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
-    has_token: {
+    hasToken: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
@@ -52,12 +52,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    expiration_date: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    creation_date: {
-      type: DataTypes.STRING,
+    expirationDate: {
+      type: DataTypes.DATE,
       allowNull: true,
     }
   }, {

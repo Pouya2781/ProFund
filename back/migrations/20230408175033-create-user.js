@@ -13,12 +13,12 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      phone_number: {
+      phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
       },
-      full_name: {
+      fullName: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -30,10 +30,10 @@ module.exports = {
       verified: {
         type: DataTypes.BOOLEAN
       },
-      birth_date: {
+      birthDate: {
         type: DataTypes.DATEONLY
       },
-      national_code: {
+      nationalCode: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
@@ -50,10 +50,10 @@ module.exports = {
       bio: {
         type: DataTypes.TEXT
       },
-      id_card_pic: {
+      idCardPic: {
         type: DataTypes.STRING
       },
-      profile_pic: {
+      profilePic: {
         type: DataTypes.STRING
       },
       role: {

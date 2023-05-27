@@ -13,12 +13,12 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      phone_number: {
+      phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
       },
-      verification_code: {
+      verificationCode: {
         type: DataTypes.STRING,
         allowNull: false
       },

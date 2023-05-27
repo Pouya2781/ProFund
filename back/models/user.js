@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({Project, Wallet, Invest, Donate, Comment, Reply}) {
+    static associate({Project, Wallet, Invest, Donate, Comment, Reply, Like}) {
       // define association here
       this.hasMany(Project, {foreignKey: "userId"})
       this.hasOne(Wallet, {foreignKey: "userId"})
@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Donate, {foreignKey: "userId"})
       this.hasMany(Comment, {foreignKey: "userId"})
       this.hasMany(Reply, {foreignKey: "userId"})
+      this.hasMany(Like, {foreignKey: "userId"})
     }
 
     toJSON(){
@@ -28,12 +29,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    phone_number: {
+    phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
     },
-    full_name: {
+    fullName: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -43,11 +44,11 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     },
     verified: DataTypes.BOOLEAN,
-    birth_date: {
+    birthDate: {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
-    national_code: {
+    nationalCode: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
@@ -56,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
     city: DataTypes.STRING,
     address: DataTypes.STRING,
     bio: DataTypes.TEXT('long'),
-    id_card_pic: DataTypes.STRING,
-    profile_pic: DataTypes.STRING,
+    idCardPic: DataTypes.STRING,
+    profilePic: DataTypes.STRING,
     role: DataTypes.STRING
   }, {
     sequelize,

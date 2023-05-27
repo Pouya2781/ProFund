@@ -31,10 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    creation_date: {
-      type: DataTypes.STRING,
-      allowNull: true,
     }
   }, {
     sequelize,

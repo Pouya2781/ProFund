@@ -20,17 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-
     liked: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    creation_date: {
-      type: DataTypes.STRING,
       allowNull: false
     }
   }, {

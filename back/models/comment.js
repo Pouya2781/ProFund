@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     message: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    creation_date: {
-      type: DataTypes.STRING,
-      allowNull: false
     }
   }, {
     sequelize,
