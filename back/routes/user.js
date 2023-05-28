@@ -1,6 +1,7 @@
 const { User, Wallet, Payment, Project, Invest } = require("../models");
 const _ = require("lodash");
 const auth = require("../middleware/auth");
+const access = require("../middleware/access");
 const asyncMiddleware = require("../middleware/async");
 const { validateUserVerificationData } = require("../validators/user");
 const path = require("path");
@@ -9,7 +10,7 @@ const multer = require("multer");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", auth, asyncMiddleware(async (req, res) => {
+router.get("/", auth, access, asyncMiddleware(async (req, res) => {
     // Finding the user according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -24,7 +25,7 @@ router.get("/", auth, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/wallet", auth, asyncMiddleware(async (req, res) => {
+router.get("/wallet", auth, access, asyncMiddleware(async (req, res) => {
     // Finding the wallet according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -44,7 +45,7 @@ router.get("/wallet", auth, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/payment", auth, asyncMiddleware(async (req, res) => {
+router.get("/payment", auth, access, asyncMiddleware(async (req, res) => {
     // Finding the payments according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -70,7 +71,7 @@ router.get("/payment", auth, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/projects", auth, asyncMiddleware(async (req, res) => {
+router.get("/projects", auth, access, asyncMiddleware(async (req, res) => {
     // Finding the payments according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -91,7 +92,7 @@ router.get("/projects", auth, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/investments", auth, asyncMiddleware(async (req, res) => {
+router.get("/investments", auth, access, asyncMiddleware(async (req, res) => {
     // Finding the payments according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -112,7 +113,7 @@ router.get("/investments", auth, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.post("/verify", auth, asyncMiddleware(async (req, res) => {
+router.post("/verify", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateUserVerificationData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -144,7 +145,7 @@ router.post("/verify", auth, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.post("/upload-id-card-pic", auth, multer({ dest: "resources/id_card_pic" }).single("image"), asyncMiddleware(async (req, res) => {
+router.post("/upload-id-card-pic", auth, access, multer({ dest: "resources/id_card_pic" }).single("image"), asyncMiddleware(async (req, res) => {
     // Finding the user according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -167,7 +168,7 @@ router.post("/upload-id-card-pic", auth, multer({ dest: "resources/id_card_pic" 
     });
 }));
 
-router.post("/upload-profile-pic", auth, multer({ dest: "resources/profile_pic" }).single("image"), asyncMiddleware(async (req, res) => {
+router.post("/upload-profile-pic", auth, access, multer({ dest: "resources/profile_pic" }).single("image"), asyncMiddleware(async (req, res) => {
     // Finding the user according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -190,7 +191,7 @@ router.post("/upload-profile-pic", auth, multer({ dest: "resources/profile_pic" 
     });
 }));
 
-router.get("/id-card-pic", auth, asyncMiddleware(async (req, res) => {
+router.get("/id-card-pic", auth, access, asyncMiddleware(async (req, res) => {
     // Finding the user according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -201,7 +202,7 @@ router.get("/id-card-pic", auth, asyncMiddleware(async (req, res) => {
     res.status(200).sendFile(path.join(__dirname, user.idCardPic));
 }));
 
-router.get("/profile-pic", auth, asyncMiddleware(async (req, res) => {
+router.get("/profile-pic", auth, access, asyncMiddleware(async (req, res) => {
     // Finding the user according to uuid stored in jwt
     const user = await User.findOne({
         where: {
