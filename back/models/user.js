@@ -20,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Reply, {foreignKey: "userId"})
       this.hasMany(Like, {foreignKey: "userId"})
     }
-
-    toJSON(){
-      return { ...this.get(), id: undefined}
-    }
   }
   User.init({
     uuid: {

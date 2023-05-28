@@ -11,6 +11,8 @@ const Joi = require("joi");
 const cors = require("./middleware/cors");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
+const adminRouter = require("./routes/admin");
+const superRouter = require("./routes/super");
 const express = require("express");
 const winston = require("winston");
 const app = express();
@@ -39,6 +41,8 @@ app.use(errorMiddleware);
 // routers
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/super", superRouter);
 
 // app.get("/", (req, res) => {
 //     res.sendFile(__dirname + "/react/build/index.html");
