@@ -1,5 +1,5 @@
 const request = require('request');
-const { VerificationCode, User, Wallet } = require("../models");
+const { VerificationCode, User, Wallet, BannedUser } = require("../models");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
@@ -32,7 +32,18 @@ router.post("/number", asyncMiddleware(async (req, res) => {
             phoneNumber: req.body.phoneNumber
         }
     });
-    console.log(user);
+
+    // Blocking banned user
+    if (user != null) {
+        const bannedUser = await BannedUser.findOne({
+            where: {
+                userId: user.id
+            }
+        });
+
+        if (bannedUser != null)
+            return res.status(403).json({ status: "banned_user", message: "The user is banned!" });
+    }
 
     const code = rng(100000, 999999);
     // Sending verification code
