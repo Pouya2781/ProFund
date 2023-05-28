@@ -116,7 +116,7 @@ router.post("/verify", auth, asyncMiddleware(async (req, res) => {
     const { error } = validateUserVerificationData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
-    // Updating and completing user data 
+    // Updating and completing user data
     try {
         await User.update(
             {
@@ -211,3 +211,5 @@ router.get("/profile-pic", auth, asyncMiddleware(async (req, res) => {
 
     res.status(200).sendFile(path.join(__dirname, user.profilePic));
 }));
+
+module.exports = router;
