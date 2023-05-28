@@ -1,5 +1,5 @@
 const request = require('request');
-const { VerificationCode, User } = require("../models");
+const { VerificationCode, User, Wallet } = require("../models");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
@@ -32,14 +32,15 @@ router.post("/number", asyncMiddleware(async (req, res) => {
             phoneNumber: req.body.phoneNumber
         }
     });
+    console.log(user);
 
     const code = rng(100000, 999999);
     // Sending verification code
-    if (user == null) {
-        await sendSms1(code, req);
-    } else {
-        await sendSms2(code, user.dataValues.fullName, req);
-    }
+    // if (user == null) {
+    //     await sendSms1(code, req);
+    // } else {
+    //     await sendSms2(code, user.dataValues.fullName, req);
+    // }
 
     // const response = await fetch('http://ippanel.com/api/select', {
     //     method: 'POST',
@@ -106,7 +107,7 @@ router.post("/code", asyncMiddleware(async (req, res) => {
         return res.status(200).json({ status: "need_sign_up", message: "Verification code is correct and user needs to sign up!" });
     }
 
-    const token = jwt.sign({ uuid: user.uuid, role: "user" }, jwtPrivateKey);
+    const token = jwt.sign({ uuid: user.uuid, role: user.role }, jwtPrivateKey);
     res.set('x-auth-token', token);
     res.status(200).json({ status: "ok", message: "Verification code is correct!" });
 }));
@@ -122,7 +123,7 @@ router.post("/add", ver, asyncMiddleware(async (req, res) => {
         });
     }
 
-    // Adding new user to database
+    // Adding new user and its wallet to database
     let newUser;
     try {
         newUser = await User.create({
@@ -132,6 +133,11 @@ router.post("/add", ver, asyncMiddleware(async (req, res) => {
             email: req.body.email,
             birthDate: req.body.birthDate,
             verified: false,
+            role: "user"
+        });
+        await Wallet.create({
+            userId: newUser.id,
+            balance: 0
         });
     } catch (ex) {
         return res.status(400).json({ status: "database_error", message: ex.errors[0].message });

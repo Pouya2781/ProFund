@@ -8,6 +8,7 @@ const _ = require("lodash");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const Joi = require("joi");
+const cors = require("./middleware/cors");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const express = require("express");
@@ -26,6 +27,7 @@ const logConfiguration = {
 const logger = winston.createLogger(logConfiguration);
 
 // middleware setup
+app.use(cors);
 app.use(morgan("tiny"));
 app.use(helmet());
 app.use(express.json());

@@ -19,7 +19,7 @@ router.get("/", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        data: _.pick(newUser, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email", "state", "city", "address", "bio"]),
+        data: _.pick(user, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email", "state", "city", "address", "bio"]),
         message: "user data retrieved successfully!",
         status: "ok"
     });
@@ -63,9 +63,8 @@ router.get("/payment", auth, access, asyncMiddleware(async (req, res) => {
         }
     });
 
-
     res.status(200).json({
-        data: payments,
+        data: _.map(payments, (item) => _.pick(item, ['amount', 'status', 'createdAt'])),
         message: "user's payments data retrieved successfully!",
         status: "ok"
     });
@@ -84,9 +83,8 @@ router.get("/projects", auth, access, asyncMiddleware(async (req, res) => {
         }
     });
 
-
     res.status(200).json({
-        data: projects,
+        data: _.map(projects, (item) => _.pick(item, ['goal', 'category', 'investedAmount', 'investorCount', 'hasDonate', 'hasToken', 'status', 'expirationDate', 'createdAt'])),
         message: "user's projects data retrieved successfully!",
         status: "ok"
     });
@@ -105,9 +103,8 @@ router.get("/investments", auth, access, asyncMiddleware(async (req, res) => {
         }
     });
 
-
     res.status(200).json({
-        data: investments,
+        data: _.map(investments, (item) => _.pick(item, ['tokenId', 'count'])),
         message: "user's investment data retrieved successfully!",
         status: "ok"
     });
@@ -116,6 +113,16 @@ router.get("/investments", auth, access, asyncMiddleware(async (req, res) => {
 router.post("/verify", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateUserVerificationData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const user = await User.findOne({
+        where: {
+            uuid: req.user.uuid
+        }
+    });
+    if (user.idCardPic == null)
+        return res.status(400).json({ status: "missing_data", message: "ID card picture must be uploaded before calling this API!" });
+    if (user.profilePic == null)
+        return res.status(400).json({ status: "missing_data", message: "Profile picture must be uploaded before calling this API!" });
 
     // Updating and completing user data
     try {
@@ -146,6 +153,13 @@ router.post("/verify", auth, access, asyncMiddleware(async (req, res) => {
 }));
 
 router.post("/upload-id-card-pic", auth, access, multer({ dest: "resources/id_card_pic" }).single("image"), asyncMiddleware(async (req, res) => {
+    if (!req.file) {
+        return res.state(400).json({
+            message: "No file uploaded!",
+            status: "fail"
+        })
+    }
+
     // Finding the user according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -154,14 +168,31 @@ router.post("/upload-id-card-pic", auth, access, multer({ dest: "resources/id_ca
     });
 
     // Deleting the previous image
-    await fs.unlink(user.idCardPic)
+    if (user.idCardPic != null)
+        fs.unlinkSync(path.join(path.resolve(__dirname, ".."), "resources/id_card_pic", user.idCardPic));
 
-    if (!req.file) {
-        return res.state(400).json({
-            message: "No file uploaded!",
-            status: "fail"
-        })
+    // Fixing the image extension
+    const originalName = req.file.originalname;
+    const fileExtension = path.extname(originalName);
+    const uniqueFilename = `${req.file.filename}${fileExtension}`;
+    const newPath = path.join(path.resolve(__dirname, ".."), 'resources/id_card_pic', uniqueFilename);
+    const oldPath = path.join(path.resolve(__dirname, ".."), req.file.path);
+    fs.renameSync(oldPath, newPath);
+
+    // Updating idCardPic address
+    try {
+        await User.update(
+            {
+                idCardPic: uniqueFilename
+            },
+            {
+                where: { id: user.id }
+            }
+        );
+    } catch (ex) {
+        return res.status(400).json({ status: "database_error", message: ex.errors[0].message });
     }
+
     res.status(200).json({
         message: "id card image uploaded successfully!",
         status: "ok"
@@ -169,6 +200,13 @@ router.post("/upload-id-card-pic", auth, access, multer({ dest: "resources/id_ca
 }));
 
 router.post("/upload-profile-pic", auth, access, multer({ dest: "resources/profile_pic" }).single("image"), asyncMiddleware(async (req, res) => {
+    if (!req.file) {
+        return res.state(400).json({
+            message: "No file uploaded!",
+            status: "fail"
+        })
+    }
+
     // Finding the user according to uuid stored in jwt
     const user = await User.findOne({
         where: {
@@ -177,14 +215,31 @@ router.post("/upload-profile-pic", auth, access, multer({ dest: "resources/profi
     });
 
     // Deleting the previous image
-    await fs.unlink(user.profilePic)
+    if (user.profilePic != null)
+        fs.unlinkSync(path.join(path.resolve(__dirname, ".."), "resources/profile_pic", user.profilePic));
 
-    if (!req.file) {
-        return res.state(400).json({
-            message: "No file uploaded!",
-            status: "fail"
-        })
+    // Fixing the image extension
+    const originalName = req.file.originalname;
+    const fileExtension = path.extname(originalName);
+    const uniqueFilename = `${req.file.filename}${fileExtension}`;
+    const newPath = path.join(path.resolve(__dirname, ".."), 'resources/profile_pic', uniqueFilename);
+    const oldPath = path.join(path.resolve(__dirname, ".."), req.file.path);
+    fs.renameSync(oldPath, newPath);
+
+    // Updating idCardPic address
+    try {
+        await User.update(
+            {
+                profilePic: uniqueFilename
+            },
+            {
+                where: { id: user.id }
+            }
+        );
+    } catch (ex) {
+        return res.status(400).json({ status: "database_error", message: ex.errors[0].message });
     }
+
     res.status(200).json({
         message: "profile image image uploaded successfully!",
         status: "ok"
@@ -199,7 +254,10 @@ router.get("/id-card-pic", auth, access, asyncMiddleware(async (req, res) => {
         }
     });
 
-    res.status(200).sendFile(path.join(__dirname, user.idCardPic));
+    if (user.idCardPic == null)
+        return res.status(200).send("There is no ID card picture for this user!");
+
+    res.status(200).sendFile(path.join(path.resolve(__dirname, ".."), "resources/id_card_pic", user.idCardPic));
 }));
 
 router.get("/profile-pic", auth, access, asyncMiddleware(async (req, res) => {
@@ -210,7 +268,10 @@ router.get("/profile-pic", auth, access, asyncMiddleware(async (req, res) => {
         }
     });
 
-    res.status(200).sendFile(path.join(__dirname, user.profilePic));
+    if (user.profilePic == null)
+        return res.status(200).send("There is no profile picture for this user!");
+
+    res.status(200).sendFile(path.join(path.resolve(__dirname, ".."), "resources/profile_pic", user.profilePic));
 }));
 
 module.exports = router;
