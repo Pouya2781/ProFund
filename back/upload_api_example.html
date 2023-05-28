@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Upload</title>
+</head>
+
+<body>
+    <h1>Image Upload</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" accept="image/*">
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="imageContainer"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            var formData = new FormData();
+            var imageInput = document.getElementById('imageInput');
+            formData.append('image', imageInput.files[0]);
+
+            const res = await fetch('http://localhost:3000/api/user/upload-id-card-pic', {
+                method: 'POST',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDhjODA1NjctNGNmYi00MGI4LWI1Y2MtMWNhYjU0ZGY5NTlkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2ODUyODAzNjR9.QhgBQmqZskspk5BRPMZm7x4AlE6aAEqMLAoLZKz34Ns"
+                },
+                body: formData
+            });
+            const json = await res.json();
+            console.log(json);
+        });
+
+        async function getImage() {
+            const res = await fetch('http://localhost:3000/api/user/id-card-pic', {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDhjODA1NjctNGNmYi00MGI4LWI1Y2MtMWNhYjU0ZGY5NTlkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2ODUyODAzNjR9.QhgBQmqZskspk5BRPMZm7x4AlE6aAEqMLAoLZKz34Ns"
+                }
+            });
+            const blob = await res.blob();
+            displayImage(blob);
+        }
+        getImage();
+
+
+
+        function displayImage(blob) {
+            var imageContainer = document.getElementById('imageContainer');
+            var imageUrl = URL.createObjectURL(blob);
+
+            var img = document.createElement('img');
+            img.src = imageUrl;
+
+            imageContainer.appendChild(img);
+        }
+    </script>
+</body>
+
+</html>
