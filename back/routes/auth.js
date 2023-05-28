@@ -4,6 +4,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const auth = require("../middleware/auth");
+const ver = require("../middleware/ver");
 const asyncMiddleware = require("../middleware/async");
 const { validatePhoneNumberData, validateVerificationData, validateUserData } = require("../validators/auth");
 const express = require("express");
@@ -75,7 +76,7 @@ router.post("/number", asyncMiddleware(async (req, res) => {
 
 router.post("/code", asyncMiddleware(async (req, res) => {
     const { error } = validateVerificationData(req.body);
-    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message});
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
     // Checking verification code
     const entry = await VerificationCode.findOne({
@@ -100,7 +101,9 @@ router.post("/code", asyncMiddleware(async (req, res) => {
         }
     });
     if (user == null) {
-        return res.status(200).json({ status: "need_sign_up", message: "Verification code is correct and user needs to sign up!"});
+        const token = jwt.sign({ phoneNumber: req.body.phoneNumber }, jwtPrivateKey);
+        res.set('x-ver-token', token);
+        return res.status(200).json({ status: "need_sign_up", message: "Verification code is correct and user needs to sign up!" });
     }
 
     const token = jwt.sign({ uuid: user.uuid, role: "user" }, jwtPrivateKey);
@@ -108,9 +111,16 @@ router.post("/code", asyncMiddleware(async (req, res) => {
     res.status(200).json({ status: "ok", message: "Verification code is correct!" });
 }));
 
-router.post("/add", asyncMiddleware(async (req, res) => {
+router.post("/add", ver, asyncMiddleware(async (req, res) => {
     const { error } = validateUserData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    if (req.body.phoneNumber != req.phoneNumber) {
+        return res.status(400).json({
+            status: "PhoneNumber_mismatch",
+            message: "The phone number supplied to API doesn't match the phone number entered during verification!"
+        });
+    }
 
     // Adding new user to database
     let newUser;
