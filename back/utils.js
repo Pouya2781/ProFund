@@ -1,4 +1,4 @@
-const { User, Wallet, Project, Invest, Donate, Token } = require("../models");
+const { User, Wallet, Project, Invest, Donate, Token } = require("./models");
 
 async function donateToProject(projectId, userUuid, amount) {
     const user = await User.findOne({

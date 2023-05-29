@@ -1,0 +1,43 @@
+{
+    "name": "ProFund",
+    "jwt": {
+        "private_key": "privateKey"
+    },
+    "sms": {
+        "user": "09134359258",
+        "pass": "Zp32wz$%kCoC77",
+        "pattern1": "j1mqncely0e59ge",
+        "pattern2": "tsn0b0e2wqr8oqc",
+        "timeout": 120
+    },
+    "api_access":{
+        "user":[
+            "/api/user/",
+            "/api/user/wallet",
+            "/api/user/payment",
+            "/api/user/projects",
+            "/api/user/investments",
+            "/api/user/verify",
+            "/api/user/upload-id-card-pic",
+            "/api/user/upload-profile-pic",
+            "/api/user/id-card-pic",
+            "/api/user/profile-pic"
+        ],
+        "admin":[
+            "/api/admin/user",
+            "/api/admin/user/delete",
+            "/api/admin/user/ban",
+            "/api/admin/user/unban",
+            "/api/admin/project",
+            "/api/admin/project/approve",
+            "/api/admin/project/delete",
+            "/api/admin/project/fund",
+            "/api/admin/project/close"
+        ],
+        "super":[
+            "/api/super/user",
+            "/api/super/user/promote",
+            "/api/super/user/demote"
+        ]
+    }
+}
