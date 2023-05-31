@@ -153,7 +153,6 @@ This API needs x-ver-token header in order to work.
 | email | `string` | `true` | pouya@gmail.com
 | birthDate | `string` | `true` | 2002-07-18
 | fullName | `string` | `true` | Pouya Sadat
-
 ### Sample Request Call
 ```
 const res = await fetch("http://localhost:3000/api/auth/add", {
@@ -617,6 +616,220 @@ const res = await fetch("http://localhost:3000/api/user/comments", {
   ```
 * **Code:** 400 <br/>
   **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Invest API
+### Introduction
+This API is used to invest in a specific token from a project.
+### URL
+```/api/user/invest```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 1
+| count | `integer` | `true` | 2
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/invest", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 1,
+                        count: 2
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Token has been bought successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"id\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "user_not_found", message: "User not found!" }
+  ```
+  OR
+  ```
+  { status: "token_not_found", message: "Token not found!" }
+  ```
+  OR
+  ```
+  { status: "project_not_found", message: "Project not found!" }
+  ```
+  OR
+  ```
+  { status: "insufficient_balance", message: "Insufficient balance!" }
+  ```
+  OR
+  ```
+  { status: "out_of_stuck", message: "There is not enough tokens to buy!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Donate API
+### Introduction
+This API is used to donate to a specific project.
+### URL
+```/api/user/donate```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 1
+| amount | `integer` | `true` | 10000
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/donate", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 1,
+                        amount: 10000
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Donate completed successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"id\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "donate_disable", message: "Project does't have donate!" }
+  ```
+  OR
+  ```
+  { status: "user_not_found", message: "User not found!" }
+  ```
+  OR
+  ```
+  { status: "project_not_found", message: "Project not found!" }
+  ```
+  OR
+  ```
+  { status: "insufficient_balance", message: "Insufficient balance!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Comment API
+### Introduction
+This API is used to comment on a specific project.
+### URL
+```/api/user/comment```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 1
+| message | `string` | `true` | I love this game
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/comment", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 1,
+                        amount: "I love this game"
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Comment created successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"id\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "Example error!" }
+  ```
 * **Code:** 401 <br/>
   **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
 * **Code:** 403 <br/>
