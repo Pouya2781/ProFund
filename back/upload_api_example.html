@@ -13,8 +13,22 @@
     </form>
 
     <div id="imageContainer"></div>
+    <h1 id="test"></h1>
 
     <script>
+
+        async function getInfo() {
+            const res = await fetch("http://localhost:3000/api/user/", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDhjODA1NjctNGNmYi00MGI4LWI1Y2MtMWNhYjU0ZGY5NTlkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2ODUyODAzNjR9.QhgBQmqZskspk5BRPMZm7x4AlE6aAEqMLAoLZKz34Ns"
+                }
+            });
+            const json = await res.json();
+            document.getElementById("test").innerHTML = json.data.fullName;
+            console.log(json);
+        }
+        getInfo();
         document.getElementById('uploadForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             var formData = new FormData();
