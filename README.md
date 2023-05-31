@@ -118,6 +118,7 @@ This API gives x-ver-token header if user is new and x-auth-token if user has al
   { status: "need_sign_up", message: "Verification code is correct and user needs to sign up!" }
   ```
   OR
+  
   ```
   { status: "ok", message: "Verification code is correct!" }
   ```
