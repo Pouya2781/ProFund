@@ -252,7 +252,7 @@ const res = await fetch("http://localhost:3000/api/user/", {
         state: "Isfahan",
         city: "Isfahan,
         address: "Moshtagh street, Jeyshir street",
-        bio: "Im a backend programmer."
+        bio: "Im a backend programmer with no experience"
     },
     message: "user data retrieved successfully!",
     status: "ok"
@@ -685,6 +685,98 @@ const res = await fetch("http://localhost:3000/api/user/replies", {
   ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User ID Card Picture API
+### Introduction
+This API is used to get ID card picture of current user.
+### URL
+```/api/user/id-card-pic```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/id-card-pic", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** `blob`
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "missing_id_card_pic", message: "There is no ID card picture for this user!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Profile Picture API
+### Introduction
+This API is used to get profile picture of current user.
+### URL
+```/api/user/profile-pic```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/profile-pic", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** `blob`
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "missing_profile_pic", message: "There is no profile picture for this user!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
 ## User Invest API
 ### Introduction
 This API is used to invest in a specific token from a project.
@@ -947,6 +1039,199 @@ const res = await fetch("http://localhost:3000/api/user/reply", {
   OR
   ```
   { status: "database_error", message: "Example error!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Verify API
+### Introduction
+This API is used to verify current user.
+Note: This API should be called after that id card picture and profile picture has been uploaded using their APIs.
+### URL
+```/api/user/verify```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| fullName | `string` | `true` | Pouya Sadat
+| email | `string` | `true` | pouya@gmail.com
+| birthDate | `string` | `true` | 2002-07-18
+| nationalCode | `string` | `true` | 1234567890
+| state | `string` | `true` | Isfahan
+| city | `string` | `true` | Isfahan
+| address | `string` | `true` | Moshtagh street, Jeyshir street
+| bio | `string` | `true` | Im a backend programmer with no experience
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/verify", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        fullName: "Pouya Sadat",
+                        email: "pouya@gmail.com",
+                        birthDate: "2002-07-18",
+                        nationalCode: "1234567890",
+                        state: "Isfahan",
+                        city: "Isfahan",
+                        address: "Moshtagh street, Jeyshir street",
+                        bio: "Im a backend programmer with no experience"
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "user data updated and completed successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"fullName\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "nationalCode must be unique!" }
+  ```
+  OR
+  ```
+  { status: "missing_id_card_pic", message: "ID card picture must be uploaded before calling this API!" }
+  ```
+  OR
+  ```
+  { status: "missing_profile_pic", message: "Profile picture must be uploaded before calling this API!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Upload ID Card Picture API
+### Introduction
+This API is used to upload ID card picture of current user.
+### URL
+```/api/user/upload-id-card-pic```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+var formData = new FormData();
+var imageInput = document.getElementById('imageInput');
+formData.append('image', imageInput.files[0]);
+
+const res = await fetch("http://localhost:3000/api/user/upload-id-card-pic", {
+                method: 'POST',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: formData
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "ID card picture uploaded successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "Example error!" }
+  ```
+  OR
+  ```
+  { status: "upload_fail", message: "No file uploaded!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Upload Profile Picture API
+### Introduction
+This API is used to upload profile picture of current user.
+### URL
+```/api/user/upload-profile-pic```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+var formData = new FormData();
+var imageInput = document.getElementById('imageInput');
+formData.append('image', imageInput.files[0]);
+
+const res = await fetch("http://localhost:3000/api/user/upload-profile-pic", {
+                method: 'POST',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: formData
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Profile picture uploaded successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "Example error!" }
+  ```
+  OR
+  ```
+  { status: "upload_fail", message: "No file uploaded!" }
   ```
 * **Code:** 401 <br/>
   **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
