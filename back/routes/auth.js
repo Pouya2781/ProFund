@@ -19,7 +19,7 @@ const pattern1 = config.get("sms.pattern1");
 const pattern2 = config.get("sms.pattern2");
 
 router.get("/check", auth, (req, res) => {
-    res.status(200).send("User is already logged in!");
+    res.status(200).json({ status: "ok", message: "User is already logged in!" });
 });
 
 router.post("/number", asyncMiddleware(async (req, res) => {
@@ -157,7 +157,7 @@ router.post("/add", ver, asyncMiddleware(async (req, res) => {
     const token = jwt.sign({ uuid: newUser.uuid, role: "user" }, jwtPrivateKey);
     res.set('x-auth-token', token);
     res.status(200).json({
-        data: _.pick(newUser, ["phoneNumber", "fullName", "nationalCode", "birthDate"]),
+        data: _.pick(newUser, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email"]),
         message: "New user added!",
         status: "ok"
     });
