@@ -40,8 +40,6 @@ const res = await fetch("http://localhost:3000/api/auth/check", {
   **Content:** ```{ status: "banned_user", message: "Access denied. You are banned!" }```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
-
-
 ## Phone Number API
 ### Introduction
 This API is used to send phone number to server in order to receive verification code.
@@ -79,7 +77,6 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
   **Content:** ```{ status: "validation_fail", message: "\"phoneNumber\" is required" }```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
-
 ## Verify Phone Number API
 ### Introduction
 This API is used to verify the entered phone number with sent code.
@@ -118,7 +115,6 @@ This API gives x-ver-token header if user is new and x-auth-token if user has al
   { status: "need_sign_up", message: "Verification code is correct and user needs to sign up!" }
   ```
   OR
-  
   ```
   { status: "ok", message: "Verification code is correct!" }
   ```
@@ -135,5 +131,84 @@ This API gives x-ver-token header if user is new and x-auth-token if user has al
   ```
   { status: "expired_code", message: "Verification code has been expired!" }
   ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Sign Up API
+### Introduction
+This API is used to Sign up new users.
+### URL
+```/api/auth/add```
+### Method
+`POST`
+### Request Header
+This API needs x-ver-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-ver-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| phoneNumber | `string` | `true` | 09131234567
+| nationalCode | `string` | `true` | 1234567890
+| email | `string` | `true` | pouya@gmail.com
+| birthData | `string` | `true` | 2002-07-18
+| fullName | `string` | `true` | Pouya Sadat
+
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/auth/add", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-ver-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        phoneNumber: "09131234567",
+	                    nationalCode: "1234567890",
+	                    email: "pouya@gmail.com",
+	                    birthDate: "2002-07-18",
+	                    fullName: "Pouya Sadat"
+                    }
+                )
+            });ّ
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: {
+        phoneNumber": "09131234567",
+        fullName": "Pouya Sadat",
+        nationalCode": "1234567890",
+        birthDate": "2002-07-18"
+    },
+    message: "New user added!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"phoneNumber\" is required" }
+  ```
+  OR
+  ```
+  {
+    status: "PhoneNumber_mismatch",
+    message: "The phone number supplied to API doesn't match the phone number entered during verification!"
+  }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "phoneNumber must be unique!" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
