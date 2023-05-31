@@ -5,7 +5,7 @@ This project is developed to help people find investors for their projects and a
 In this part you can find information about developed APIs and how to use them properly.
 
 # Auth APIs
-APIs discussed hear are used mainly in authentication process
+APIs discussed hear are mainly used in authentication process.
 
 ## Check Authentication API
 ### Introduction
@@ -151,7 +151,7 @@ This API needs x-ver-token header in order to work.
 | phoneNumber | `string` | `true` | 09131234567
 | nationalCode | `string` | `true` | 1234567890
 | email | `string` | `true` | pouya@gmail.com
-| birthData | `string` | `true` | 2002-07-18
+| birthDate | `string` | `true` | 2002-07-18
 | fullName | `string` | `true` | Pouya Sadat
 
 ### Sample Request Call
@@ -210,5 +210,66 @@ const res = await fetch("http://localhost:3000/api/auth/add", {
   ```
 * **Code:** 401 <br/>
   **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+
+
+# User APIs
+APIs discussed hear are mainly used for operation related to user.
+
+## User Info API
+### Introduction
+This API is used to get info about current user.
+### URL
+```/api/user/```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: {
+        phoneNumber: "09131234567",
+        fullName: "Pouya Sadat",
+        nationalCode: "1234567809",
+        birthDate: "2002-04-18",
+        email: "pouya@gmail.com",
+        state: "Isfahan",
+        city: "Isfahan,
+        address: "Moshtagh street, Jeyshir street",
+        bio: "Im a backend programmer."
+    },
+    message: "user data retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
