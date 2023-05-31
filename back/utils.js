@@ -6,21 +6,39 @@ async function donateToProject(projectId, userUuid, amount) {
             uuid: userUuid
         }
     });
-    if (user == null) return "User not found!";
+    if (user == null)
+        return {
+            message: "User not found!",
+            status: "not_found"
+        };
 
     const wallet = await Wallet.findOne({
         where: {
             userId: user.id
         }
     });
-    if (amount > wallet.balance) return "Insufficient balance!";
+    if (amount > wallet.balance)
+        return {
+            message: "Insufficient balance!",
+            status: "insufficient_balance"
+        };
 
     const project = await Project.findOne({
         where: {
             id: projectId
         }
     });
-    if (project == null) return "Project not found!";
+    if (project == null)
+        return {
+            message: "Project not found!",
+            status: "not_found"
+        };
+
+    if (!project.hasDonate)
+        return {
+            message: "Project does't have donate!",
+            status: "donate_disable"
+        };
 
     const donate = await Donate.findOne({
         where: {
@@ -47,6 +65,10 @@ async function donateToProject(projectId, userUuid, amount) {
                 }
             }
         );
+        return {
+            message: "Donate completed successfully!",
+            status: "ok"
+        };
     }
 
     await Project.update(
@@ -75,28 +97,44 @@ async function buyProjectToken(tokenId, userUuid, count) {
             uuid: userUuid
         }
     });
-    if (user == null) return "User not found!";
+    if (user == null)
+        return {
+            message: "User not found!",
+            status: "not_found"
+        };
 
     const token = await Token.findOne({
         where: {
             id: tokenId
         }
     });
-    if (token == null) return "Token not found!";
+    if (token == null)
+        return {
+            message: "Token not found!",
+            status: "not_found"
+        };
 
     const project = await Project.findOne({
         where: {
             id: token.projectId
         }
     });
-    if (project == null) return "Project not found!";
+    if (project == null)
+        return {
+            message: "Project not found!",
+            status: "not_found"
+        };
 
     const wallet = await Wallet.findOne({
         where: {
             userId: user.id
         }
     });
-    if (count * token.price > wallet.balance) return "Insufficient balance!";
+    if (count * token.price > wallet.balance)
+        return {
+            message: "Insufficient balance!",
+            status: "insufficient_balance"
+        };
 
     const invest = await Invest.findOne({
         where: {
@@ -142,6 +180,10 @@ async function buyProjectToken(tokenId, userUuid, count) {
             where: { userId: user.id }
         }
     );
+    return {
+        message: "Token has been bought successfully!",
+        status: "ok"
+    };
 }
 
 async function fundProject(projectId) {
@@ -150,7 +192,11 @@ async function fundProject(projectId) {
             id: token.projectId
         }
     });
-    if (project == null) return "Project not found!";
+    if (project == null)
+        return {
+            message: "Project not found!",
+            status: "not_found"
+        };
 
     const wallet = await Wallet.findOne({
         where: {
@@ -166,14 +212,30 @@ async function fundProject(projectId) {
             where: { userId: project.userId }
         }
     );
+    return {
+        message: "Project funded successfully!",
+        status: "ok"
+    };
 }
 
 async function refundProject(projectId) {
-    const investsWithToken = await Token.findAll({
+    const project = await Project.findOne({
+        where: {
+            id: token.projectId
+        }
+    });
+    if (project == null)
+        return {
+            message: "Project not found!",
+            status: "not_found"
+        };
+
+    const tokenWithInvests = await Token.findAll({
         include: [Invest],
         where: {
             projectId: projectId
-        }
+        },
+        raw: true
     });
     const donates = await Donate.findAll({
         where: {
@@ -204,13 +266,13 @@ async function refundProject(projectId) {
     }
 
     // Refunding tokens
-    for (let i = 0; i < investsWithToken.length; i++) {
+    for (let i = 0; i < tokenWithInvests.length; i++) {
         await Wallet.update(
             {
-                balance: sequelize.literal(`balance + ${investsWithToken[i].price * investsWithToken[i].count}`)
+                balance: sequelize.literal(`balance + ${tokenWithInvests[i].price * tokenWithInvests[i]['Invest.count']}`)
             },
             {
-                userId: investsWithToken[i].userId
+                userId: tokenWithInvests[i]['Invest.userId']
             }
         );
     }
@@ -230,6 +292,10 @@ async function refundProject(projectId) {
             projectId: projectId
         }
     });
+    return {
+        message: "Project refunded successfully!",
+        status: "ok"
+    };
 }
 
 module.exports = {
