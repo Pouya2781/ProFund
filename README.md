@@ -14,7 +14,7 @@ This API is used to check if the user is logged in or not.
 ```/api/auth/check```
 ### Method
 `GET`
-### Header
+### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
 | ----- | ----- | ----- |
@@ -52,7 +52,7 @@ This API is used to send phone number to server in order to receive verification
 ### Request Parameters
 | Parameter Name | Type | Required | Example Value
 | ----- | ----- | ----- | ----- |
-| `PhoneNumber` | `string` | `true` | 09131234567
+| PhoneNumber | `string` | `true` | 09131234567
 
 ### Sample Request Call
 ```
@@ -77,5 +77,62 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
   ```
 * **Code:** 400 <br/>
   **Content:** ```{ status: "validation_fail", message: "\"phoneNumber\" is required" }```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+
+## Verify Phone Number API
+### Introduction
+This API is used to verify the entered phone number with sent code.
+### URL
+```/api/auth/code```
+### Method
+`POST`
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| phoneNumber | `string` | `true` | 09131234567
+| code | `string` | `true` | 123456
+
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/auth/number", {
+                method: 'POST',
+                body: JSON.stringfy(
+                    {
+                        phoneNumber: "09131234567",
+                        code: "123456"
+                    }
+                )
+            });ّ
+```
+### Response Header
+This API gives x-ver-token header if user is new and x-auth-token if user has already sign up.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+| x-ver-token | `string` | tyJhbGKglOiJIUzI1NiIsLmg |
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  { status: "need_sign_up", message: "Verification code is correct and user needs to sign up!" }
+  ```
+  OR
+  ```
+  { status: "ok", message: "Verification code is correct!" }
+  ```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"phoneNumber\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_code", message: "Invalid verification code!" }
+  ```
+  OR
+  ```
+  { status: "expired_code", message: "Verification code has been expired!" }
+  ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
