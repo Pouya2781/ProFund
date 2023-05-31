@@ -18,6 +18,6 @@ This API is used to check if the user is logged in or not.
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
 | ----- | ----- | ----- |
-| x-auth-token | `string` | dsfjhskdfjhksdjfkdjsfksjdhfksdjhfksd |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDhjODA1NjctNGNmYi00MGI4LWI1Y2MtMWNhYjU0ZGY5NTlkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2ODUyODAzNjR9.QhgBQmqZskspk5BRPMZm7x4AlE6aAEqMLAoLZKz34Ns |
 ### Request
 ### Response
