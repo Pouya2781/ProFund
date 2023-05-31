@@ -8,11 +8,13 @@ const _ = require("lodash");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const Joi = require("joi");
-const cors = require("./middleware/cors");
+// const cors = require("./middleware/cors"); => old cors module
+const cors = require('cors');
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
 const superRouter = require("./routes/super");
+const projectRouter = require("./routes/project");
 const express = require("express");
 const winston = require("winston");
 const app = express();
@@ -29,7 +31,8 @@ const logConfiguration = {
 const logger = winston.createLogger(logConfiguration);
 
 // middleware setup
-app.use(cors);
+//app.use(cors); => old cors module
+app.use(cors());
 app.use(morgan("tiny"));
 app.use(helmet());
 app.use(express.json());
@@ -43,6 +46,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/super", superRouter);
+app.use("/api/project", projectRouter);
 
 // app.get("/", (req, res) => {
 //     res.sendFile(__dirname + "/react/build/index.html");
