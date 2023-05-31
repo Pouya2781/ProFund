@@ -165,10 +165,10 @@ const res = await fetch("http://localhost:3000/api/auth/add", {
                 body: JSON.stringfy(
                     {
                         phoneNumber: "09131234567",
-	                    nationalCode: "1234567890",
-	                    email: "pouya@gmail.com",
-	                    birthDate: "2002-07-18",
-	                    fullName: "Pouya Sadat"
+                        nationalCode: "1234567890",
+                        email: "pouya@gmail.com",
+                        birthDate: "2002-07-18",
+                        fullName: "Pouya Sadat"
                     }
                 )
             });ّ
@@ -182,7 +182,8 @@ const res = await fetch("http://localhost:3000/api/auth/add", {
         phoneNumber": "09131234567",
         fullName": "Pouya Sadat",
         nationalCode": "1234567890",
-        birthDate": "2002-07-18"
+        birthDate": "2002-07-18",
+        email: "pouya@gmail.com",
     },
     message: "New user added!",
     status: "ok"
@@ -255,6 +256,184 @@ const res = await fetch("http://localhost:3000/api/user/", {
         bio: "Im a backend programmer."
     },
     message: "user data retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Wallet Info API
+### Introduction
+This API is used to get info about current user's wallet.
+### URL
+```/api/user/wallet```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/wallet", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: {
+        balance: 1000000
+    },
+    message: "user's wallet data retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Payment Info API
+### Introduction
+This API is used to get info about current user's payments.
+### URL
+```/api/user/payment```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/payment", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            amount: 5000000,
+            status: "success",
+            createdAt: "2023-05-31T12:15:29.000Z"
+        },
+        {
+            amount: 1000000,
+            status: "success",
+            createdAt: "2023-05-31T12:15:29.000Z"
+        }
+    ],
+    message: "user's payments data retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Project Info API
+### Introduction
+This API is used to get info about current user's projects.
+### URL
+```/api/user/projects```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/projects", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            id: 6,
+            goal: 10000000,
+            category: "Game",
+            investedAmount: 2000000,
+            investorCount: 5,
+            hasDonate: 1,
+            hasToken: 1,
+            status: "active",
+            expirationDate: "2024-01-01T00:00:00.000Z",
+            createdAt: "2023-05-31T12:24:10.000Z",
+            title: "Best Game Ever"
+        },
+        {
+            id: 7,
+            goal: 1000000,
+            category: "Art",
+            investedAmount: 50000000,
+            investorCount: 22,
+            hasDonate: 1,
+            hasToken: 1,
+            status: "pending_payment",
+            expirationDate: "2023-05-18T00:00:00.000Z",
+            createdAt: "2023-05-31T12:24:10.000Z",
+            title: "Monaliza"
+        }
+    ],
+    message: "user's projects data retrieved successfully!",
     status: "ok"
   }
   ```
