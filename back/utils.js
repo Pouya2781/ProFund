@@ -1,4 +1,5 @@
 const { User, Wallet, Project, Invest, Donate, Token } = require("./models");
+const _ = require("lodash");
 
 async function donateToProject(projectId, userUuid, amount) {
     const user = await User.findOne({
@@ -9,7 +10,7 @@ async function donateToProject(projectId, userUuid, amount) {
     if (user == null)
         return {
             message: "User not found!",
-            status: "not_found"
+            status: "user_not_found"
         };
 
     const wallet = await Wallet.findOne({
@@ -31,7 +32,7 @@ async function donateToProject(projectId, userUuid, amount) {
     if (project == null)
         return {
             message: "Project not found!",
-            status: "not_found"
+            status: "project_not_found"
         };
 
     if (!project.hasDonate)
@@ -65,10 +66,6 @@ async function donateToProject(projectId, userUuid, amount) {
                 }
             }
         );
-        return {
-            message: "Donate completed successfully!",
-            status: "ok"
-        };
     }
 
     await Project.update(
@@ -88,7 +85,10 @@ async function donateToProject(projectId, userUuid, amount) {
             where: { userId: user.id }
         }
     );
-    return "Donate completed successfully!";
+    return {
+        message: "Donate completed successfully!",
+        status: "ok"
+    };
 }
 
 async function buyProjectToken(tokenId, userUuid, count) {
@@ -100,7 +100,7 @@ async function buyProjectToken(tokenId, userUuid, count) {
     if (user == null)
         return {
             message: "User not found!",
-            status: "not_found"
+            status: "user_not_found"
         };
 
     const token = await Token.findOne({
@@ -111,7 +111,19 @@ async function buyProjectToken(tokenId, userUuid, count) {
     if (token == null)
         return {
             message: "Token not found!",
-            status: "not_found"
+            status: "token_not_found"
+        };
+
+    const tokenInvests = await Invest.findAll({
+        where: {
+            tokenId: token.id
+        }
+    });
+    const boughtCount = _.sumBy(tokenInvests, 'count');
+    if (boughtCount + count > token.limit)
+        return {
+            message: "There is not enough tokens to buy!",
+            status: "out_of_stuck"
         };
 
     const project = await Project.findOne({
@@ -122,7 +134,7 @@ async function buyProjectToken(tokenId, userUuid, count) {
     if (project == null)
         return {
             message: "Project not found!",
-            status: "not_found"
+            status: "project_not_found"
         };
 
     const wallet = await Wallet.findOne({
@@ -195,7 +207,7 @@ async function fundProject(projectId) {
     if (project == null)
         return {
             message: "Project not found!",
-            status: "not_found"
+            status: "project_not_found"
         };
 
     const wallet = await Wallet.findOne({
@@ -227,7 +239,7 @@ async function refundProject(projectId) {
     if (project == null)
         return {
             message: "Project not found!",
-            status: "not_found"
+            status: "project_not_found"
         };
 
     const tokenWithInvests = await Token.findAll({
