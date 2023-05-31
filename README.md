@@ -67,10 +67,11 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:** ```{<br/>
-        status: "ok",<br/>
-        message: "Verification code successfully sent!"<br/>
-        data: { phoneNumber: "09131234567" }<br/>
+  **Content:**
+  ```{
+        status: "ok",
+        message: "Verification code successfully sent!"
+        data: { phoneNumber: "09131234567" }
     }```
 * **Code:** 400 <br/>
   **Content:** ```{ status: "validation_fail", message: "\"phoneNumber\" is required" }```
