@@ -67,8 +67,7 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:**
-  
+  **Content:**<br/>
   ```{
         status: "ok",
         message: "Verification code successfully sent!"
