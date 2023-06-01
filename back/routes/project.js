@@ -98,4 +98,76 @@ router.post("/", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
+router.post("/info", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateIdData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const project = await Project.findOne({
+        include: [ProjectDescription],
+        where: {
+            id: req.body.id
+        },
+        raw: true
+    });
+
+    res.status(200).json({
+        data: {
+            id: project['id'],
+            userId: project['userId'],
+            goal: project['goal'],
+            category: project['category'],
+            investedAmount: project['investedAmount'],
+            investorCount: project['investorCount'],
+            hasDonate: project['hasDonate'],
+            hasToken: project['hasToken'],
+            status: project['status'],
+            expirationDate: project['expirationDate'],
+            title: project['ProjectDescription.title'],
+            subtitle: project['ProjectDescription.subtitle']
+        }
+        ,
+        message: "Project info retrieved successfully!",
+        status: "ok"
+    });
+}));
+
+router.post("/tokens", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateIdData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const tokens = await Token.findAll({
+        where: {
+            projectId: req.body.id
+        }
+    });
+
+    boughtCounts = [];
+    for (let i = 0; i < tokens.length; i++) {
+        const tokenInvests = await Invest.findAll({
+            where: {
+                tokenId: tokens[i].id
+            }
+        });
+        const boughtCount = _.sumBy(tokenInvests, 'count');
+        boughtCounts[i] = boughtCount;
+    }
+    const iterator = boughtCounts[Symbol.iterator]();
+
+    res.status(200).json({
+        data: _.map(tokens, (item) => {
+            return {
+                boughtCount: iterator.next().value,
+                projectId: item.projectId,
+                price: item.price,
+                limit: item.limit,
+                description: item.description,
+                createdAt: item.createdAt,
+                id: item.id
+            }
+        }),
+        message: "Project tokens retrieved successfully!",
+        status: "ok"
+    });
+}));
+
 module.exports = router;
