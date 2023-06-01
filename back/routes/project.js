@@ -223,4 +223,35 @@ router.post("/reply", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
+router.post("/main-pic", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateIdData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const project = await Project.findOne({
+        where: {
+            id: req.body.id
+        }
+    });
+    if (project == null) return res.status(400).send("Project not found!");
+    if (project.mainPic == null) return res.status(400).json("There is no main picture for this project!");
+
+    res.status(200).sendFile(path.join(path.resolve(__dirname, ".."), "resources/main_pic", project.mainPic));
+}));
+
+router.post("/presentation", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateIdData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const project = await Project.findOne({
+        where: {
+            id: req.body.id
+        }
+    });
+    if (project == null) return res.status(400).send("Project not found!");
+    if (project.mainPic == null) return res.status(400).json("There is no presentation file for this project!");
+
+    res.status(200).sendFile(path.join(path.resolve(__dirname, ".."), "resources/presentation", project.presentation));
+}));
+
+
 module.exports = router;
