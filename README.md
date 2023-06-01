@@ -685,6 +685,124 @@ const res = await fetch("http://localhost:3000/api/user/replies", {
   ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Liked Projects API
+### Introduction
+This API is used to get list of liked projects for current user.
+### URL
+```/api/user/liked-projects```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/liked-projects", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            projectTitle: "this is a title",
+            projectId: 5,
+            createdAt: "2023-06-01T05:47:38.000Z",
+            id: 1
+        },
+        {
+            projectTitle: "Best Game Ever",
+            projectId: 6,
+            createdAt: "2023-06-01T05:47:42.000Z",
+            id: 2
+        }
+    ],
+    message: "user's liked projects data retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Disliked Projects API
+### Introduction
+This API is used to get list of disliked projects for current user.
+### URL
+```/api/user/disliked-projects```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/disliked-projects", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            projectTitle: "this is a title",
+            projectId: 5,
+            createdAt: "2023-06-01T05:47:38.000Z",
+            id: 1
+        },
+        {
+            projectTitle: "Best Game Ever",
+            projectId: 6,
+            createdAt: "2023-06-01T05:47:42.000Z",
+            id: 2
+        }
+    ],
+    message: "user's disliked projects data retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
 ## User ID Card Picture API
 ### Introduction
 This API is used to get ID card picture of current user.
@@ -1027,6 +1145,140 @@ const res = await fetch("http://localhost:3000/api/user/reply", {
 ### Response
 * **Code:** 200 <br/>
   **Content:** ```{ status: "ok", message: "Reply created successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"id\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "Example error!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Like API
+### Introduction
+This API is used to like a specific project or become neutral if already liked.
+### URL
+```/api/user/like```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 1
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/like", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 1
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  { status: "ok_liked", message: "Project liked successfully!" }
+  ```
+  OR
+  ```
+  { status: "ok_neutral", message: "Like deleted from project successfully!" }
+  ```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"id\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "Example error!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Dislike API
+### Introduction
+This API is used to dislike a specific project or become neutral if already disliked.
+### URL
+```/api/user/dislike```
+### Method
+`POSt`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 1
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/dislike", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 1
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  { status: "ok_disliked", message: "Project disliked successfully!" }
+  ```
+  OR
+  ```
+  { status: "ok_neutral", message: "Dislike deleted from project successfully!" }
+  ```
 * **Code:** 400 <br/>
   **Content:**
   ```
