@@ -109,7 +109,7 @@ router.post("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        message: "user has been deleted successfully!",
+        message: "User has been deleted successfully!",
         status: "ok"
     });
 }));
@@ -130,7 +130,7 @@ router.post("/user/ban", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        message: "user has been banned successfully!",
+        message: "User has been banned successfully!",
         status: "ok"
     });
 }));
@@ -151,7 +151,7 @@ router.post("/user/unban", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        message: "user has been unbanned successfully!",
+        message: "User has been unbanned successfully!",
         status: "ok"
     });
 }));
