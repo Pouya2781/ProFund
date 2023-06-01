@@ -3,8 +3,9 @@ const _ = require("lodash");
 const auth = require("../middleware/auth");
 const access = require("../middleware/access");
 const asyncMiddleware = require("../middleware/async");
-const { validateIdData, validateProjectStatusData } = require("../validators/admin");
+const { validateIdData, validateProjectSearchData, validateUserSearchData } = require("../validators/admin");
 const { refundProject, fundProject } = require("../utils");
+const { Op } = require('sequelize');
 const express = require("express");
 const router = express.Router();
 
@@ -17,12 +18,37 @@ router.get("/user", auth, access, asyncMiddleware(async (req, res) => {
 
     res.status(200).json({
         data: users,
+        message: "User list retrieved successfully!",
+        status: "ok"
+    });
+}));
+
+router.post("/user", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateUserSearchData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const users = await User.findAll({
+        where: {
+            ...(req.body.phoneNumber && { phoneNumber: { [Op.like]: `%${req.body.phoneNumber}%` } }),
+            ...(req.body.fullName && { fullName: { [Op.like]: `%${req.body.fullName}%` } }),
+            ...(req.body.email && { email: { [Op.like]: `%${req.body.email}%` } }),
+            ...(req.body.nationalCode && { nationalCode: { [Op.like]: `%${req.body.nationalCode}%` } }),
+            ...(req.body.state && { state: { [Op.like]: `%${req.body.state}%` } }),
+            ...(req.body.city && { city: { [Op.like]: `%${req.body.city}%` } }),
+            ...(req.body.address && { address: { [Op.like]: `%${req.body.address}%` } }),
+            ...(req.body.verified !== undefined && { verified: req.body.verified }),
+            role: "user"
+        },
+    });
+
+    res.status(200).json({
+        data: users,
         message: "user list retrieved successfully!",
         status: "ok"
     });
 }));
 
-router.get("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -69,7 +95,7 @@ router.get("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
 
     for (let i = 0; i < projects.length; i++) {
         if (projects[i].status == "active" || projects[i].status == "pending_payment")
-            refundProject(projects[i].id)
+            await refundProject(projects[i].id)
         await ProjectDescription.destroy({
             where: { projectId: projects[i].id }
         });
@@ -83,12 +109,12 @@ router.get("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        message: "user has been deleted successfully!",
+        message: "User has been deleted successfully!",
         status: "ok"
     });
 }));
 
-router.get("/user/ban", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/user/ban", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -104,12 +130,12 @@ router.get("/user/ban", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        message: "user has been banned successfully!",
+        message: "User has been banned successfully!",
         status: "ok"
     });
 }));
 
-router.get("/user/unban", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/user/unban", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -125,29 +151,86 @@ router.get("/user/unban", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        message: "user has been unbanned successfully!",
+        message: "User has been unbanned successfully!",
         status: "ok"
     });
 }));
 
 router.get("/project", auth, access, asyncMiddleware(async (req, res) => {
-    const { error } = validateProjectStatusData(req.body);
-    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
-
-    const projects = await Project.findAll({
-        where: {
-            status: req.body.status
-        }
-    });
+    const projects = await Project.findAll({ include: [ProjectDescription], raw: true });
 
     res.status(200).json({
-        data: projects,
+        data: _.map(projects, (item) => {
+            return {
+                id: item['id'],
+                userId: item['userId'],
+                goal: item['goal'],
+                category: item['category'],
+                investedAmount: item['investedAmount'],
+                investorCount: item['investorCount'],
+                hasDonate: item['hasDonate'],
+                hasToken: item['hasToken'],
+                status: item['status'],
+                expirationDate: item['expirationDate'],
+                title: item['ProjectDescription.title'],
+                subtitle: item['ProjectDescription.subtitle']
+            }
+        }),
         message: "Project list retrieved successfully!",
         status: "ok"
     });
 }));
 
-router.get("/project/approve", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateProjectSearchData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const projects = await Project.findAll({
+        include: [
+            { 
+                model: ProjectDescription,
+                where: {
+                    ...(req.body.title && { title: { [Op.like]: `%${req.body.title}%` } }),
+                    ...(req.body.subtitle && { subtitle: { [Op.like]: `%${req.body.subtitle}%` } })
+                }
+            }
+        ],
+        where: {
+            ...(req.body.userId && { userId: { [Op.like]: `%${req.body.userId}%` } }),
+            ...(req.body.goal && { goal: { [Op.like]: `%${req.body.goal}%` } }),
+            ...(req.body.category && { category: { [Op.like]: `%${req.body.category}%` } }),
+            ...(req.body.investedAmount && { investedAmount: { [Op.like]: `%${req.body.investedAmount}%` } }),
+            ...(req.body.investorCount && { investorCount: { [Op.like]: `%${req.body.investorCount}%` } }),
+            ...(req.body.hasDonate !== undefined && { hasDonate: req.body.hasDonate }),
+            ...(req.body.hasToken !== undefined && { hasToken: req.body.hasToken }),
+            ...(req.body.status && { status: req.body.status })
+        },
+        raw: true
+    });
+
+    res.status(200).json({
+        data: _.map(projects, (item) => {
+            return {
+                id: item['id'],
+                userId: item['userId'],
+                goal: item['goal'],
+                category: item['category'],
+                investedAmount: item['investedAmount'],
+                investorCount: item['investorCount'],
+                hasDonate: item['hasDonate'],
+                hasToken: item['hasToken'],
+                status: item['status'],
+                expirationDate: item['expirationDate'],
+                title: item['ProjectDescription.title'],
+                subtitle: item['ProjectDescription.subtitle']
+            }
+        }),
+        message: "Project list retrieved successfully!",
+        status: "ok"
+    });
+}));
+
+router.post("/project/approve", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -176,7 +259,7 @@ router.get("/project/approve", auth, access, asyncMiddleware(async (req, res) =>
     });
 }));
 
-router.get("/project/delete", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project/delete", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -189,7 +272,7 @@ router.get("/project/delete", auth, access, asyncMiddleware(async (req, res) => 
         return res.status(400).json({ status: "not_found", message: "Project not found!" });
 
     if (project.status == "active" || project.status == "pending_payment")
-        refundProject(project.id)
+        await refundProject(project.id)
     await ProjectDescription.destroy({
         where: { projectId: project.id }
     });
@@ -203,7 +286,7 @@ router.get("/project/delete", auth, access, asyncMiddleware(async (req, res) => 
     });
 }));
 
-router.get("/project/fund", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project/fund", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -217,7 +300,7 @@ router.get("/project/fund", auth, access, asyncMiddleware(async (req, res) => {
     if (project.status != "pending_payment")
         return res.status(400).json({ status: "fund_fail", message: "Project can not be funded!" });
 
-    fundProject(project.id);
+    await fundProject(project.id);
     await Project.update(
         {
             status: "pending_delivery"
@@ -233,7 +316,7 @@ router.get("/project/fund", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/project/close", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project/close", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
