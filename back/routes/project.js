@@ -9,6 +9,19 @@ const express = require("express");
 const router = express.Router();
 
 
+router.get("/", auth, access, asyncMiddleware(async (req, res) => {
+    const projects = await Project.findOne({
+        where: {
+            status: ["active", "pending_payment", "pending_delivery"]
+        }
+    });
+
+    res.status(200).json({
+        data: projects,
+        message: "Project list retrieved successfully!",
+        status: "ok"
+    });
+}));
 
 
 
