@@ -20,7 +20,7 @@ router.get("/", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        data: _.pick(user, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email", "state", "city", "address", "bio"]),
+        data: _.pick(user, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email", "state", "city", "address", "bio", "role"]),
         message: "user data retrieved successfully!",
         status: "ok"
     });
