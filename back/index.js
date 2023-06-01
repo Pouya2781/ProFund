@@ -32,7 +32,9 @@ const logger = winston.createLogger(logConfiguration);
 
 // middleware setup
 //app.use(cors); => old cors module
-app.use(cors());
+app.use(cors({
+    exposedHeaders: ['x-ver-token', 'x-auth-token']
+}));
 app.use(morgan("tiny"));
 app.use(helmet());
 app.use(express.json());
