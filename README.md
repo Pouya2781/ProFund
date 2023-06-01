@@ -14,6 +14,8 @@ This API is used to check if the user is logged in or not.
 ```/api/auth/check```
 ### Method
 `GET`
+### API Access
+`ANY`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -47,6 +49,8 @@ This API is used to send phone number to server in order to receive verification
 ```/api/auth/number```
 ### Method
 `POST`
+### API Access
+`ANY`
 ### Request Parameters
 | Parameter Name | Type | Required | Example Value
 | ----- | ----- | ----- | ----- |
@@ -84,6 +88,8 @@ This API is used to verify the entered phone number with sent code.
 ```/api/auth/code```
 ### Method
 `POST`
+### API Access
+`ANY`
 ### Request Parameters
 | Parameter Name | Type | Required | Example Value
 | ----- | ----- | ----- | ----- |
@@ -140,6 +146,8 @@ This API is used to Sign up new users.
 ```/api/auth/add```
 ### Method
 `POST`
+### API Access
+`ANY`
 ### Request Header
 This API needs x-ver-token header in order to work.
 | Header Name | Type | Example Value |
@@ -224,6 +232,8 @@ This API is used to get info about current user.
 ```/api/user/```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -252,7 +262,8 @@ const res = await fetch("http://localhost:3000/api/user/", {
         state: "Isfahan",
         city: "Isfahan,
         address: "Moshtagh street, Jeyshir street",
-        bio: "Im a backend programmer with no experience"
+        bio: "Im a backend programmer with no experience",
+        role: "user"
     },
     message: "user data retrieved successfully!",
     status: "ok"
@@ -280,6 +291,8 @@ This API is used to get info about current user's wallet.
 ```/api/user/wallet```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -328,6 +341,8 @@ This API is used to get info about current user's payments.
 ```/api/user/payment```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -385,6 +400,8 @@ This API is used to get info about current user's projects.
 ```/api/user/projects```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -458,6 +475,8 @@ This API is used to get info about current user's investments.
 ```/api/user/invests```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -519,6 +538,8 @@ This API is used to get info about current user's donates.
 ```/api/user/donates```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -571,6 +592,8 @@ This API is used to get info about current user's comments.
 ```/api/user/comments```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -636,6 +659,8 @@ This API is used to get info about current user's replies.
 ```/api/user/replies```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -692,6 +717,8 @@ This API is used to get list of liked projects for current user.
 ```/api/user/liked-projects```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -751,6 +778,8 @@ This API is used to get list of disliked projects for current user.
 ```/api/user/disliked-projects```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -810,6 +839,8 @@ This API is used to get ID card picture of current user.
 ```/api/user/id-card-pic```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -856,6 +887,8 @@ This API is used to get profile picture of current user.
 ```/api/user/profile-pic```
 ### Method
 `GET`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -902,6 +935,8 @@ This API is used to invest in a specific token from a project.
 ```/api/user/invest```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -984,6 +1019,8 @@ This API is used to donate to a specific project.
 ```/api/user/donate```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1062,6 +1099,8 @@ This API is used to comment on a specific project.
 ```/api/user/comment```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1124,6 +1163,8 @@ This API is used to reply to a specific comment.
 ```/api/user/reply```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1186,6 +1227,8 @@ This API is used to like a specific project or become neutral if already liked.
 ```/api/user/like```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1253,6 +1296,8 @@ This API is used to dislike a specific project or become neutral if already disl
 ```/api/user/dislike```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1321,6 +1366,8 @@ Note: This API should be called after that id card picture and profile picture h
 ```/api/user/verify```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1403,6 +1450,8 @@ This API is used to upload ID card picture of current user.
 ```/api/user/upload-id-card-pic```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1458,6 +1507,8 @@ This API is used to upload profile picture of current user.
 ```/api/user/upload-profile-pic```
 ### Method
 `POSt`
+### API Access
+`USER`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1517,6 +1568,8 @@ This API is used to get list of all users.
 ```/api/admin/user```
 ### Method
 `GET`
+### API Access
+`ADMIN`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1602,6 +1655,8 @@ This API is used to get list of all projects.
 ```/api/admin/project```
 ### Method
 `GET`
+### API Access
+`ADMIN`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1677,6 +1732,8 @@ This API is used to search users.
 ```/api/admin/user```
 ### Method
 `POST`
+### API Access
+`ADMIN`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1787,6 +1844,8 @@ This API is used to search projects.
 ```/api/admin/project```
 ### Method
 `POST`
+### API Access
+`ADMIN`
 ### Request Header
 This API needs x-auth-token header in order to work.
 | Header Name | Type | Example Value |
@@ -1805,21 +1864,6 @@ This API needs x-auth-token header in order to work.
 | hasDonate | `boolean` | `false` | true
 | hasToken | `boolean` | `false` | false
 | status | `boolean` | `false` | active
-```
-const res = await fetch("http://localhost:3000/api/admin/user", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
-                },
-                body: JSON.stringfy(
-                    {
-                        fullName: "po",
-                        nationalCode: "123"
-                    }
-                )
-            });
-```
 ### Sample Request Call
 ```
 const res = await fetch("http://localhost:3000/api/admin/project", {
@@ -1860,6 +1904,676 @@ const res = await fetch("http://localhost:3000/api/admin/project", {
     status: "ok"
   }
   ```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin Project Approve API
+### Introduction
+This API is used to approve a specific project.
+### URL
+```/api/admin/project/approve```
+### Method
+`POST`
+### API Access
+`ADMIN`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 5
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/project/approve", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 5
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Project approved successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+  OR
+  ```
+  { status: "not_found", message: "Project not found!" }
+  ```
+  OR
+  ```
+  { status: "approve_fail", message: "Project can not be approved!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin Project Delete API
+### Introduction
+This API is used to delete a specific project.
+### URL
+```/api/admin/project/delete```
+### Method
+`POST`
+### API Access
+`ADMIN`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 5
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/project/delete", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 5
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Project deleted successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+  OR
+  ```
+  { status: "not_found", message: "Project not found!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin Project Fund API
+### Introduction
+This API is used to fund a specific project.
+### URL
+```/api/admin/project/fund```
+### Method
+`POST`
+### API Access
+`ADMIN`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 5
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/project/fund", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 5
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Project funded successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+  OR
+  ```
+  { status: "not_found", message: "Project not found!" }
+  ```
+  OR
+  ```
+  { status: "fund_fail", message: "Project can not be funded!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin Project Close API
+### Introduction
+This API is used to close a specific project (sets the project status to done).
+### URL
+```/api/admin/project/close```
+### Method
+`POST`
+### API Access
+`ADMIN`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 5
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/project/close", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 5
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "Project delivered successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+  OR
+  ```
+  { status: "not_found", message: "Project not found!" }
+  ```
+  OR
+  ```
+  { status: "delivery_fail", message: "Project can not be delivered!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin User Delete API
+### Introduction
+This API is used to delete a specific user.
+### URL
+```/api/admin/user/delete```
+### Method
+`POST`
+### API Access
+`ADMIN`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 5
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/user/delete", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 5
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "User has been deleted successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+  OR
+  ```
+  { status: "not_found", message: "User not found!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin User Ban API
+### Introduction
+This API is used to ban a specific user.
+### URL
+```/api/admin/user/ban```
+### Method
+`POST`
+### API Access
+`ADMIN`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 5
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/user/ban", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 5
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "User has been banned successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+  OR
+  ```
+  { status: "not_found", message: "User not found!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin User Unban API
+### Introduction
+This API is used to unban a specific user.
+### URL
+```/api/admin/user/unban```
+### Method
+`POST`
+### API Access
+`ADMIN`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 5
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/user/unban", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 5
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "User has been unbanned successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+  OR
+  ```
+  { status: "not_found", message: "User not found!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+
+# Super Admin APIs
+APIs discussed hear are mainly used for operation related to super admin.
+
+## Super Admin Users API
+### Introduction
+This API is used to get list of users according to their role.
+### URL
+```/api/super/user```
+### Method
+`POST`
+### API Access
+`SUPER`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| option | `string` | `true` | 1
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/super/user", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        option: "2"
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            id: 1,
+            uuid: "4987bb5c-42ac-4730-ae31-d664166cd797",
+            phoneNumber: "09961494951",
+            fullName: "Pouya Sadat",
+            email: "pouya@gmail.com",
+            verified: true,
+            birthDate: "2002-07-18",
+            nationalCode: "1234567879",
+            state: "Isfahan",
+            city: "Isfahan",
+            address: "Moshtagh street, Jeyshir street",
+            bio: "Im a backend programmer with no experience",
+            idCardPic: null,
+            profilePic: null,
+            role: "admin",
+            createdAt: "2023-05-28T13:21:55.000Z",
+            updatedAt: "2023-05-31T14:55:10.000Z"
+        },
+        {
+            id: 5,
+            uuid: "48c80567-4cfb-40b8-b5cc-1cab54df959d",
+            phoneNumber: "09961494953",
+            fullName: "Pouya Akbari",
+            email: "ali@gmail.com",
+            verified: true,
+            birthDate: "2002-04-18",
+            nationalCode: "1234567899",
+            state: "Isfahan",
+            city: "Isfahan",
+            address: "bozorgmehr, moshtagh street",
+            bio: "This is information about me",
+            idCardPic: "f28a675666c6b72debac326b82f22170.jpg",
+            profilePic: "4c5a7f1e55253ee9f245c1e63710479c.png",
+            role: "user",
+            createdAt: "2023-05-28T13:26:04.000Z",
+            updatedAt: "2023-05-30T12:00:34.000Z"
+        }
+    ],
+    message: "user list retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Super Admin User Promote API
+### Introduction
+This API is used to promote a specific user.
+### URL
+```/api/super/user/promote```
+### Method
+`POST`
+### API Access
+`SUPER`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 1
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/super/user/promote", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 1
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "user promoted successfully!" }```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Super Admin User Demote API
+### Introduction
+This API is used to demote a specific user.
+### URL
+```/api/super/user/demote```
+### Method
+`POST`
+### API Access
+`SUPER`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| id | `integer` | `true` | 1
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/super/user/demote", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        id: 1
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "user demoted successfully!" }```
 * **Code:** 400 <br/>
   **Content:** 
   ```
