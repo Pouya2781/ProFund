@@ -9,7 +9,8 @@ function validateProjectSearchData(body) {
         investedAmount: Joi.number().optional(),
         investorCount: Joi.number().optional(),
         hasDonate: Joi.boolean().optional(),
-        hasToken: Joi.boolean().optional()
+        hasToken: Joi.boolean().optional(),
+        status: Joi.string().regex(/^(active|pending_payment|pending_delivery)$/).optional()
     });
 
     return schema.validate(body);
