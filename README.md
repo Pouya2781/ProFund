@@ -960,6 +960,10 @@ const res = await fetch("http://localhost:3000/api/user/invest", {
   ```
   { status: "out_of_stuck", message: "There is not enough tokens to buy!" }
   ```
+  OR
+  ```
+  { status: "project_not_active", message: "Project is not in active status!" }
+  ```
 * **Code:** 401 <br/>
   **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
 * **Code:** 403 <br/>
@@ -1033,6 +1037,10 @@ const res = await fetch("http://localhost:3000/api/user/donate", {
   OR
   ```
   { status: "insufficient_balance", message: "Insufficient balance!" }
+  ```
+  OR
+  ```
+  { status: "project_not_active", message: "Project is not in active status!" }
   ```
 * **Code:** 401 <br/>
   **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
@@ -1516,7 +1524,7 @@ This API needs x-auth-token header in order to work.
 | x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
 ### Sample Request Call
 ```
-const res = await fetch("http://localhost:3000//api/admin/user", {
+const res = await fetch("http://localhost:3000/api/admin/user", {
                 method: 'GET',
                 headers: {
                     'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
@@ -1601,7 +1609,7 @@ This API needs x-auth-token header in order to work.
 | x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
 ### Sample Request Call
 ```
-const res = await fetch("http://localhost:3000//api/admin/project", {
+const res = await fetch("http://localhost:3000/api/admin/project", {
                 method: 'GET',
                 headers: {
                     'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
@@ -1649,6 +1657,218 @@ const res = await fetch("http://localhost:3000//api/admin/project", {
   ```
 * **Code:** 400 <br/>
   **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin User Search API
+### Introduction
+This API is used to search users.
+### URL
+```/api/admin/user```
+### Method
+`POST`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| phoneNumber | `string` | `false` | 0913123
+| fullName | `string` | `false` | Pouy
+| email | `string` | `false` | pouya@gmai
+| nationalCode | `string` | `false` | 123456
+| state | `string` | `false` | Isfa
+| city | `string` | `false` | Is
+| address | `string` | `false` | Moshtag
+| verified | `boolean` | `false` | true
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/user", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        fullName: "po",
+                        nationalCode: "123"
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            id: 5,
+            uuid: "48c80567-4cfb-40b8-b5cc-1cab54df959d",
+            phoneNumber: "09961494953",
+            fullName: "Pouya Akbari",
+            email: "ali@gmail.com",
+            verified: true,
+            birthDate: "2002-04-18",
+            nationalCode: "1234567899",
+            state: "Isfahan",
+            city: "Isfahan",
+            address: "bozorgmehr, moshtagh street",
+            bio: "This is information about me",
+            idCardPic: "f28a675666c6b72debac326b82f22170.jpg",
+            profilePic: "4c5a7f1e55253ee9f245c1e63710479c.png",
+            role: "user",
+            createdAt: "2023-05-28T13:26:04.000Z",
+            updatedAt: "2023-05-30T12:00:34.000Z"
+        },
+        {
+            id: 17,
+            uuid: "a35202a4-2882-402e-ba47-613ea054b5d3",
+            phoneNumber: "09131234567",
+            fullName: "Pouya Sadat",
+            email: "pouya1@gmail.com",
+            verified: false,
+            birthDate: "2002-07-18",
+            nationalCode: "1234567890",
+            state: null,
+            city: null,
+            address: null,
+            bio: null,
+            idCardPic: null,
+            profilePic: null,
+            role: "user",
+            createdAt: "2023-05-31T11:15:32.000Z",
+            updatedAt: "2023-05-31T11:15:32.000Z"
+        }
+    ],
+    message: "user list retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"nationalCodfe\" is not allowed" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin Project Search API
+### Introduction
+This API is used to search projects.
+### URL
+```/api/admin/project```
+### Method
+`POST`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| title | `string` | `false` | mon
+| subtitle | `string` | `false` | Pou
+| userId | `string` | `false` | pouya@g
+| goal | `string` | `false` | 12
+| category | `string` | `false` | Is
+| investedAmount | `string` | `false` | Isfa
+| investorCount | `string` | `false` | Mosh
+| hasDonate | `boolean` | `false` | true
+| hasToken | `boolean` | `false` | false
+| status | `boolean` | `false` | active
+```
+const res = await fetch("http://localhost:3000/api/admin/user", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        fullName: "po",
+                        nationalCode: "123"
+                    }
+                )
+            });
+```
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/admin/project", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        title: "mon"
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            id: 7,
+            userId: 1,
+            goal: 1000000,
+            category: "Art",
+            investedAmount: 50000000,
+            investorCount: 22,
+            hasDonate: 1,
+            hasToken: 1,
+            status: "pending_payment",
+            expirationDate: "2023-05-18T00:00:00.000Z",
+            title: "Monaliza",
+            subtitle: "This is a painting inspired from Monaliza!"
+        }
+    ],
+    message: "Project list retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** 
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "validation_fail", message: "\"tile\" is not allowed" }
+  ```
 * **Code:** 401 <br/>
   **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
 * **Code:** 403 <br/>

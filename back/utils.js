@@ -41,6 +41,12 @@ async function donateToProject(projectId, userUuid, amount) {
             status: "donate_disable"
         };
 
+    if (project.status != "active")
+        return {
+            message: "Project is not in active status!",
+            status: "project_not_active"
+        };
+
     const donate = await Donate.findOne({
         where: {
             projectId: projectId,
@@ -114,6 +120,23 @@ async function buyProjectToken(tokenId, userUuid, count) {
             status: "token_not_found"
         };
 
+    const project = await Project.findOne({
+        where: {
+            id: token.projectId
+        }
+    });
+    if (project == null)
+        return {
+            message: "Project not found!",
+            status: "project_not_found"
+        };
+
+    if (project.status != "active")
+        return {
+            message: "Project is not in active status!",
+            status: "project_not_active"
+        };
+
     const tokenInvests = await Invest.findAll({
         where: {
             tokenId: token.id
@@ -124,17 +147,6 @@ async function buyProjectToken(tokenId, userUuid, count) {
         return {
             message: "There is not enough tokens to buy!",
             status: "out_of_stuck"
-        };
-
-    const project = await Project.findOne({
-        where: {
-            id: token.projectId
-        }
-    });
-    if (project == null)
-        return {
-            message: "Project not found!",
-            status: "project_not_found"
         };
 
     const wallet = await Wallet.findOne({

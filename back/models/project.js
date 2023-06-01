@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
-    // creating, pending approval, active, pending payment, pending delivery, done, expired
+    // creating1, creating2, creating3, pending approval, active, pending payment, pending delivery, done, expired
     status: {
       type: DataTypes.STRING,
       allowNull: false,
