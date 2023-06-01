@@ -15,6 +15,45 @@ function validateUserVerificationData(body) {
     return schema.validate(body);
 }
 
+function validateIdData(body) {
+    const schema = Joi.object().keys({
+        id: Joi.number().required()
+    });
+
+    return schema.validate(body);
+}
+
+function validateDonateData(body) {
+    const schema = Joi.object().keys({
+        id: Joi.number().required(),
+        amount: Joi.number().min(10000).required()
+    });
+
+    return schema.validate(body);
+}
+
+function validateInvestData(body) {
+    const schema = Joi.object().keys({
+        id: Joi.number().required(),
+        count: Joi.number().min(1).required()
+    });
+
+    return schema.validate(body);
+}
+
+function validateCommentData(body) {
+    const schema = Joi.object().keys({
+        id: Joi.number().required(),
+        message: Joi.string().min(3).max(255).required()
+    });
+
+    return schema.validate(body);
+}
+
 module.exports = {
-    validateUserVerificationData: validateUserVerificationData
+    validateUserVerificationData: validateUserVerificationData,
+    validateIdData: validateIdData,
+    validateDonateData: validateDonateData,
+    validateInvestData: validateInvestData,
+    validateCommentData: validateCommentData
 }
