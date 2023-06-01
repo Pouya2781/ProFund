@@ -15,6 +15,7 @@ const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
 const superRouter = require("./routes/super");
 const projectRouter = require("./routes/project");
+const mprojectRouter = require("./routes/mproject");
 const express = require("express");
 const winston = require("winston");
 const app = express();
@@ -49,6 +50,7 @@ app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/super", superRouter);
 app.use("/api/project", projectRouter);
+app.use("/api/mproject", mprojectRouter);
 
 // app.get("/", (req, res) => {
 //     res.sendFile(__dirname + "/react/build/index.html");
