@@ -18,7 +18,7 @@ router.get("/user", auth, access, asyncMiddleware(async (req, res) => {
 
     res.status(200).json({
         data: users,
-        message: "user list retrieved successfully!",
+        message: "User list retrieved successfully!",
         status: "ok"
     });
 }));
@@ -48,7 +48,7 @@ router.post("/user", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -114,7 +114,7 @@ router.get("/user/delete", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/user/ban", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/user/ban", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -135,7 +135,7 @@ router.get("/user/ban", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/user/unban", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/user/unban", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -157,10 +157,25 @@ router.get("/user/unban", auth, access, asyncMiddleware(async (req, res) => {
 }));
 
 router.get("/project", auth, access, asyncMiddleware(async (req, res) => {
-    const projects = await Project.findAll();
+    const projects = await Project.findAll({ include: [ProjectDescription], raw: true });
 
     res.status(200).json({
-        data: projects,
+        data: _.map(projects, (item) => {
+            return {
+                id: item['id'],
+                userId: item['userId'],
+                goal: item['goal'],
+                category: item['category'],
+                investedAmount: item['investedAmount'],
+                investorCount: item['investorCount'],
+                hasDonate: item['hasDonate'],
+                hasToken: item['hasToken'],
+                status: item['status'],
+                expirationDate: item['expirationDate'],
+                title: item['ProjectDescription.title'],
+                subtitle: item['ProjectDescription.subtitle']
+            }
+        }),
         message: "Project list retrieved successfully!",
         status: "ok"
     });
@@ -215,7 +230,7 @@ router.post("/project", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/project/approve", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project/approve", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -244,7 +259,7 @@ router.get("/project/approve", auth, access, asyncMiddleware(async (req, res) =>
     });
 }));
 
-router.get("/project/delete", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project/delete", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -271,7 +286,7 @@ router.get("/project/delete", auth, access, asyncMiddleware(async (req, res) => 
     });
 }));
 
-router.get("/project/fund", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project/fund", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
@@ -301,7 +316,7 @@ router.get("/project/fund", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.get("/project/close", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/project/close", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
