@@ -1498,3 +1498,167 @@ const res = await fetch("http://localhost:3000/api/user/upload-profile-pic", {
   ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+
+# Admin APIs
+APIs discussed hear are mainly used for operation related to admin.
+
+## Admin Users API
+### Introduction
+This API is used to get list of all users.
+### URL
+```/api/admin/user```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000//api/admin/user", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            id: 5,
+            uuid: "48c80567-4cfb-40b8-b5cc-1cab54df959d",
+            phoneNumber: "09961494953",
+            fullName: "Pouya Akbari",
+            email: "ali@gmail.com",
+            verified: true,
+            birthDate: "2002-04-18",
+            nationalCode: "1234567899",
+            state: "Isfahan",
+            city: "Isfahan",
+            address: "bozorgmehr, moshtagh street",
+            bio: "This is information about me",
+            idCardPic: "f28a675666c6b72debac326b82f22170.jpg",
+            profilePic: "4c5a7f1e55253ee9f245c1e63710479c.png",
+            role: "user",
+            createdAt: "2023-05-28T13:26:04.000Z",
+            updatedAt: "2023-05-30T12:00:34.000Z"
+        },
+        {
+            id: 15,
+            uuid: "b299ac73-9047-4651-ba07-816edde7f208",
+            phoneNumber: "09133415689",
+            fullName: "mahdi jelvani",
+            email: "mahdi@gmail.com",
+            verified: false,
+            birthDate: "2002-01-18",
+            nationalCode: "1234567895",
+            state: null,
+            city: null,
+            address: null,
+            bio: null,
+            idCardPic: null,
+            profilePic: null,
+            role: "user",
+            createdAt: "2023-05-30T12:31:14.000Z",
+            updatedAt: "2023-05-30T12:31:14.000Z"
+        }
+    ],
+    message: "User list retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## Admin Projects API
+### Introduction
+This API is used to get list of all projects.
+### URL
+```/api/admin/project```
+### Method
+`GET`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000//api/admin/project", {
+                method: 'GET',
+                headers: {
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                }
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:**
+  ```
+  {
+    data: [
+        {
+            id: 5,
+            userId: 5,
+            goal: 1000000,
+            category: "Game",
+            investedAmount: 4144000,
+            investorCount: 12,
+            hasDonate: 1,
+            hasToken: 1,
+            status: "active",
+            expirationDate: "2023-12-01T00:00:00.000Z",
+            title: "this is a title",
+            subtitle: "this is a subtitle"
+        },
+        {
+            id: 7,
+            userId: 1,
+            goal: 1000000,
+            category: "Art",
+            investedAmount: 50000000,
+            investorCount: 22,
+            hasDonate: 1,
+            hasToken: 1,
+            status: "pending_payment",
+            expirationDate: "2023-05-18T00:00:00.000Z",
+            title: "Monaliza",
+            subtitle: "This is a painting inspired from Monaliza!"
+        }
+    ],
+    message: "Project list retrieved successfully!",
+    status: "ok"
+  }
+  ```
+* **Code:** 400 <br/>
+  **Content:** ```{ status: "invalid_token", message: "Invalid token!" }```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
