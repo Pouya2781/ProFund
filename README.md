@@ -4,6 +4,12 @@ This project is developed to help people find investors for their projects and a
 # APIs
 In this part you can find information about developed APIs and how to use them properly.
 
+# List
+Our Project seprate in 2 sections
+* **[Back-End](#Back-End)**</br>
+
+* **[Front-End](#Front-End)**</br>
+
 ## Auth APIs
 * **[Check Authentication API](#check-authentication-api)**</br>
 * **[Phone Number API](#check-authentication-api)**</br>
@@ -2728,3 +2734,203 @@ const res = await fetch("http://localhost:3000/api/super/user/demote", {
   ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+  
+  
+  
+  
+  # Front-End
+
+We used React <code>Ts</code> and <code>Js</code> for this project
+
+
+## Some detail
+here i write some component and hooks that we used more:
+* We use React <code>Router-dom</code> and <code>private-routes</code> for redirecting between pages
+  </br>
+* Also we use React <code>useState</code> hook for change variables dynamically
+  </br>
+* We use React <code>useEffect</code> hook that allows you to perform side effects in functional components. Side effects refer to actions that affect the external world outside the component, such as data fetching, subscriptions, or manually interacting with the DOM.
+  </br>
+* Also used React <code>FC</code> (its used in TS file type) that provides type checking and inference for functional components, including the props that the component receives. By using React.FC, you can define the type of the props that the component expects, making it easier to catch type errors and provide documentation for component usage.
+
+
+
+## Pages
+we use several Pages in this project like </br>
+* **[Sign-in / Sign-up](#Sign-in-up)**</br>
+* **[Dashboard](#Dashboard-heart-of-system)**</br>
+* Work-History</br>
+* Account-Overview</br>
+* Account-Setting</br>
+* Add-project</br>
+* Admin-Desk</br>
+* Invest-Show-Project</br>
+
+
+## Sign-in-up
+
+Ok, I Used <code>Js</code> or <code>JSX</code> for this page
+
+here is the first look of page: </br>
+ 
+
+![Sign-in-up page](src/Sign-in-up-page.png)
+
+we use this page for also Sign-in and Sign-up at the same time. how?
+user enter his/her number first, then an API called from Front-End named [verify-phone-number-api](#verify-phone-number-api) send code for thatnumber.
+
+ </br>
+
+![Sign-in-up page - 2](src/Sign-in-up-page-2.png)
+
+ Back-End check if user available or need Sign-up after that in response Front-end understand how to handle it.
+ </br>
+ <code>if user availble:</code> Redirect to Dashboard Page
+ </br>
+ <code>if user NOT available:</code> show Sigh-up Fields:
+ </br>
+
+ ![Sign-in-up page - 3](src/Sign-in-up-page-3.png)
+(i use <code>swiper</code> library for sliding bdw)
+then user enter all information and then after next API called [user-sign-up-api](#user-sign-up-api) user will register to our system.
+
+---
+
+## Dashboard-heart-of-system
+
+Our dashboard panel use base <code>Typescript</code> in react <code>TSX</code>
+  </br>
+here is show of our system dashboard:
+  </br>
+
+* Dark-mode:
+  </br>
+
+![Profund-Dashboard-Dark](src/Profund-Dashboard-Dark.png)
+
+* Light-mode:
+
+![Profund-Dashboard-Light](src/Profund-Dashboard-Light.png)
+
+this panel acquired 4 parts:
+* Right-side-panel
+* Dashboard-Main
+* Top-Header
+* Footer
+</br>
+</br>
+
+### **Right-side-panel**
+
+all of files for this panel can found in ---> <code>src\ _metronic \layout \components \sidebar</code>
+
+</br>
+
+![Profund-Dashboard-right-panel](src/Profund-Dashboard-right-panel.png)
+
+this panel also acquired 4 parts:
+* Logo
+* user-base-info
+* Menu-Items
+* footer(exit-button)
+
+Logo handled in <code>SidebarLogo.tsx</code>
+</br>
+user-base-info and Menu-Items also can seprated in <code>SidebarMenuMain.tsx</code>
+</br>
+and footer(exit-button) is in <code>SidebarFooter.tsx</code>
+</br>
+</br>
+
+
+### **Top Header**
+
+all of files for this panel can found in ---> <code>src\ _metronic\layout\components\header\header-menus</code>
+
+</br>
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header.png)
+
+</br>
+
+this panel also acquired 4 parts:
+* Left-Part(some notification and profile info and also dark mode)
+* Right-Part(Menu items)
+
+
+### Right-Part
+
+this part can modarate in <code>MenuInner.tsx</code>
+
+### Left-Part
+
+This part itself have 3 sections:
+* Profile-Basic-Info
+* Light-Dark-Swicher
+* Notification-Panel
+</br>
+
+### Profile-Basic-Info
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header-Profile-basics.png)
+
+this part can be edited in <code>HeaderUserMenu.tsx</code>
+
+
+### Light-Dark-Swicher
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header-Dark-Light-Swicher.png)
+
+
+this part can be edited in <code>ThemeModeSwitcher.tsx</code>
+
+### Light-Dark-Swicher
+
+This section have 2 tabs
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header-Notification.png)
+
+
+this part can be edited in <code>HeaderNotificationsMenu.tsx</code>
+
+### Footer
+
+all of files for this panel can found in ---> <code>You should NOT change this 😁😅</code>
+
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Footer.png)
+
+### Dashboard-Main 
+
+in this section you have promote to items in main dashboard
+
+all of files for this panel can found in ---> <code>src\app\pages\dashboard</code>
+also change exacly this section: <code>DashboardWrapper.tsx</code>
+
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Main.png)
+
+I use widgets for this page that can found in ---> <code>src\ _metronic \partials \widgets</code>
+
+in this directory you can find every cards, tables, charts, mixed and many more things
+
+for example <code>top پروژه های </code> used <code>MixedWidget8</code> that can be found in the said directory. You can use some object when call widgets like this:
+</br>
+<code>
+MixedWidget8 </br>
+className='card-xxl-stretch mb-xl-3'</br>
+chartColor='success'</br>
+chartHeight='150px'</br>
+</code>
+
+---
+</br>
+
+## Work-History
+
+This Page Also is in <code>TS</code>. this page work on APIs like [User Project Info API](#user-project-info-api) and
+[User Investment Info API](#user-investment-info-api)
+  
+  
+  
+  
