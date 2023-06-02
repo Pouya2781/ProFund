@@ -1,9 +1,63 @@
 # ProFund
 This project is developed to help people find investors for their projects and also for people to find new projects to fund and support.
 
+# List
+Our Project seprate in 2 sections
+* **[Back-End](#Back-End)**</br>
+
+* **[Front-End](#Front-End)**</br>
+
+
 # APIs
 In this part you can find information about developed APIs and how to use them properly.
 
+## Auth APIs
+* **[Check Authentication API](#check-authentication-api)**</br>
+* **[Phone Number API](#check-authentication-api)**</br>
+* **[Verify Phone Number API](#verify-phone-number-api)**</br>
+* **[User Sign Up API](#user-sign-up-api)**
+
+## User APIs
+* **[User Info API](#user-info-api)**</br>
+* **[User Wallet Info API](#user-wallet-info-api)**</br>
+* **[User Payment Info API](#user-payment-info-api)**</br>
+* **[User Project Info API](#user-project-info-api)**</br>
+* **[User Investment Info API](#user-investment-info-api)**</br>
+* **[User Donate Info API](#user-donate-info-api)**</br>
+* **[User Comment Info API](#user-comment-info-api)**</br>
+* **[User Reply Info API](#user-reply-info-api)**</br>
+* **[User Liked Projects API](#user-liked-projects-api)**</br>
+* **[User Disliked Projects API](#user-disliked-projects-api)**</br>
+* **[User ID Card Picture API](#user-id-card-picture-api)**</br>
+* **[User Profile Picture API](#user-profile-picture-api)**</br>
+* **[User Invest API](#user-invest-api)**</br>
+* **[User Donate API](#user-donate-api)**</br>
+* **[User Comment API](#user-comment-api)**</br>
+* **[User Reply API](#user-reply-api)**</br>
+* **[User Like API](#user-like-api)**</br>
+* **[User Dislike API](#user-dislike-api)**</br>
+* **[User Edit API](#user-edit-api)**</br>
+* **[User Verify API](#user-verify-api)**</br>
+* **[User Upload ID Card Picture API](#user-upload-id-card-picture-api)**</br>
+* **[User Upload Profile Picture API](#user-upload-profile-picture-api)**
+
+## Admin APIs
+* **[Admin Users API](#admin-users-api)**</br>
+* **[Admin Projects API](#admin-projects-api)**</br>
+* **[Admin User Search API](#admin-user-search-api)**</br>
+* **[Admin Project Search API](#admin-project-search-api)**</br>
+* **[Admin Project Approve API](#admin-project-approve-api)**</br>
+* **[Admin Project Delete API](#admin-project-delete-api)**</br>
+* **[Admin Project Fund API](#admin-project-fund-api)**</br>
+* **[Admin Project Close API](#admin-project-close-api)**</br>
+* **[Admin User Delete API](#admin-user-delete-api)**</br>
+* **[Admin User Ban API](#admin-user-ban-api)**</br>
+* **[Admin User Unban API](#admin-user-unban-api)**
+
+## Super Admin APIs
+* **[Super Admin Users API](#super-admin-users-api)**</br>
+* **[Super Admin User Promote API](#super-admin-user-promote-api)**</br>
+* **[Super Admin User Demote API](#super-admin-user-demote-api)**</br>
 # Auth APIs
 APIs discussed hear are mainly used in authentication process.
 
@@ -29,7 +83,7 @@ const res = await fetch("http://localhost:3000/api/auth/check", {
                 headers: {
                     'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
                 }
-            });ّ
+            });
 ```
 ### Response
 * **Code:** 200 <br/>
@@ -65,7 +119,7 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
                         phoneNumber: "09131234567"
                     }
                 )
-            });ّ
+            });
 ```
 ### Response
 * **Code:** 200 <br/>
@@ -106,7 +160,7 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
                         code: "123456"
                     }
                 )
-            });ّ
+            });
 ```
 ### Response Header
 This API gives x-ver-token header if user is new and x-auth-token if user has already sign up.
@@ -178,7 +232,7 @@ const res = await fetch("http://localhost:3000/api/auth/add", {
                         fullName: "Pouya Sadat"
                     }
                 )
-            });ّ
+            });
 ```
 ### Response
 * **Code:** 200 <br/>
@@ -263,9 +317,10 @@ const res = await fetch("http://localhost:3000/api/user/", {
         city: "Isfahan,
         address: "Moshtagh street, Jeyshir street",
         bio: "Im a backend programmer with no experience",
-        role: "user"
+        role: "user",
+        verified: true
     },
-    message: "user data retrieved successfully!",
+    message: "User data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -315,7 +370,7 @@ const res = await fetch("http://localhost:3000/api/user/wallet", {
     data: {
         balance: 1000000
     },
-    message: "user's wallet data retrieved successfully!",
+    message: "User's wallet data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -374,7 +429,7 @@ const res = await fetch("http://localhost:3000/api/user/payment", {
             createdAt: "2023-05-31T12:15:29.000Z"
         }
     ],
-    message: "user's payments data retrieved successfully!",
+    message: "User's payments data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -449,7 +504,7 @@ const res = await fetch("http://localhost:3000/api/user/projects", {
             title: "Monaliza"
         }
     ],
-    message: "user's projects data retrieved successfully!",
+    message: "User's projects data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -512,7 +567,7 @@ const res = await fetch("http://localhost:3000/api/user/invests", {
             count: 10
         }
     ],
-    "message": "user's investment data retrieved successfully!",
+    "message": "User's investment data retrieved successfully!",
     "status": "ok"
   }
   ```
@@ -566,7 +621,7 @@ const res = await fetch("http://localhost:3000/api/user/donates", {
             amount: 4000102
         }
     ],
-    message: "user's donates data retrieved successfully!",
+    message: "User's donates data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -633,7 +688,7 @@ const res = await fetch("http://localhost:3000/api/user/comments", {
             id: 3
         }
     ],
-    message: "user's comments data retrieved successfully!",
+    message: "User's comments data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -691,7 +746,7 @@ const res = await fetch("http://localhost:3000/api/user/replies", {
             id: 1
         }
     ],
-    message: "user's replies data retrieved successfully!",
+    message: "User's replies data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -752,7 +807,7 @@ const res = await fetch("http://localhost:3000/api/user/liked-projects", {
             id: 2
         }
     ],
-    message: "user's liked projects data retrieved successfully!",
+    message: "User's liked projects data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -813,7 +868,7 @@ const res = await fetch("http://localhost:3000/api/user/disliked-projects", {
             id: 2
         }
     ],
-    message: "user's disliked projects data retrieved successfully!",
+    message: "User's disliked projects data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -934,7 +989,7 @@ This API is used to invest in a specific token from a project.
 ### URL
 ```/api/user/invest```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1018,7 +1073,7 @@ This API is used to donate to a specific project.
 ### URL
 ```/api/user/donate```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1098,7 +1153,7 @@ This API is used to comment on a specific project.
 ### URL
 ```/api/user/comment```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1162,7 +1217,7 @@ This API is used to reply to a specific comment.
 ### URL
 ```/api/user/reply```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1226,7 +1281,7 @@ This API is used to like a specific project or become neutral if already liked.
 ### URL
 ```/api/user/like```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1295,7 +1350,7 @@ This API is used to dislike a specific project or become neutral if already disl
 ### URL
 ```/api/user/dislike```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1358,6 +1413,90 @@ const res = await fetch("http://localhost:3000/api/user/dislike", {
   ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Edit API
+### Introduction
+This API is used to edit current user's info.
+### URL
+```/api/user/edit```
+### Method
+`POST`
+### API Access
+`USER`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| fullName | `string` | `true` | Pouya Sadat
+| email | `string` | `true` | pouya@gmail.com
+| birthDate | `string` | `true` | 2002-07-18
+| nationalCode | `string` | `true` | 1234567890
+| state | `string` | `true` | Isfahan
+| city | `string` | `true` | Isfahan
+| address | `string` | `true` | Moshtagh street, Jeyshir street
+| bio | `string` | `true` | Im a backend programmer with no experience
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/edit", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        fullName: "Pouya Sadat",
+                        email: "pouya@gmail.com",
+                        birthDate: "2002-07-18",
+                        nationalCode: "1234567890",
+                        state: "Isfahan",
+                        city: "Isfahan",
+                        address: "Moshtagh street, Jeyshir street",
+                        bio: "Im a backend programmer with no experience"
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "User data updated successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"fullName\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "nationalCode must be unique!" }
+  ```
+  OR
+  ```
+  { status: "missing_id_card_pic", message: "ID card picture must be uploaded before calling this API!" }
+  ```
+  OR
+  ```
+  { status: "missing_profile_pic", message: "Profile picture must be uploaded before calling this API!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
 ## User Verify API
 ### Introduction
 This API is used to verify current user.
@@ -1365,7 +1504,7 @@ Note: This API should be called after that id card picture and profile picture h
 ### URL
 ```/api/user/verify```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1408,7 +1547,7 @@ const res = await fetch("http://localhost:3000/api/user/verify", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:** ```{ status: "ok", message: "user data updated and completed successfully!" }```
+  **Content:** ```{ status: "ok", message: "User data updated and completed successfully!" }```
 * **Code:** 400 <br/>
   **Content:**
   ```
@@ -1449,7 +1588,7 @@ This API is used to upload ID card picture of current user.
 ### URL
 ```/api/user/upload-id-card-pic```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1506,7 +1645,7 @@ This API is used to upload profile picture of current user.
 ### URL
 ```/api/user/upload-profile-pic```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1811,7 +1950,7 @@ const res = await fetch("http://localhost:3000/api/admin/user", {
             updatedAt: "2023-05-31T11:15:32.000Z"
         }
     ],
-    message: "user list retrieved successfully!",
+    message: "User list retrieved successfully!",
     status: "ok"
   }
   ```
@@ -2454,7 +2593,7 @@ const res = await fetch("http://localhost:3000/api/super/user", {
             updatedAt: "2023-05-30T12:00:34.000Z"
         }
     ],
-    message: "user list retrieved successfully!",
+    message: "User list retrieved successfully!",
     status: "ok"
   }
   ```
@@ -2515,7 +2654,7 @@ const res = await fetch("http://localhost:3000/api/super/user/promote", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:** ```{ status: "ok", message: "user promoted successfully!" }```
+  **Content:** ```{ status: "ok", message: "User promoted successfully!" }```
 * **Code:** 400 <br/>
   **Content:** 
   ```
@@ -2573,7 +2712,7 @@ const res = await fetch("http://localhost:3000/api/super/user/demote", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:** ```{ status: "ok", message: "user demoted successfully!" }```
+  **Content:** ```{ status: "ok", message: "User demoted successfully!" }```
 * **Code:** 400 <br/>
   **Content:** 
   ```
@@ -2596,3 +2735,203 @@ const res = await fetch("http://localhost:3000/api/super/user/demote", {
   ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+  
+  
+  
+  
+  # Front-End
+
+We used React <code>Ts</code> and <code>Js</code> for this project
+
+
+## Some detail
+here i write some component and hooks that we used more:
+* We use React <code>Router-dom</code> and <code>private-routes</code> for redirecting between pages
+  </br>
+* Also we use React <code>useState</code> hook for change variables dynamically
+  </br>
+* We use React <code>useEffect</code> hook that allows you to perform side effects in functional components. Side effects refer to actions that affect the external world outside the component, such as data fetching, subscriptions, or manually interacting with the DOM.
+  </br>
+* Also used React <code>FC</code> (its used in TS file type) that provides type checking and inference for functional components, including the props that the component receives. By using React.FC, you can define the type of the props that the component expects, making it easier to catch type errors and provide documentation for component usage.
+
+
+
+## Pages
+we use several Pages in this project like </br>
+* **[Sign-in / Sign-up](#Sign-in-up)**</br>
+* **[Dashboard](#Dashboard-heart-of-system)**</br>
+* Work-History</br>
+* Account-Overview</br>
+* Account-Setting</br>
+* Add-project</br>
+* Admin-Desk</br>
+* Invest-Show-Project</br>
+
+
+## Sign-in-up
+
+Ok, I Used <code>Js</code> or <code>JSX</code> for this page
+
+here is the first look of page: </br>
+ 
+
+![Sign-in-up page](src/Sign-in-up-page.png)
+
+we use this page for also Sign-in and Sign-up at the same time. how?
+user enter his/her number first, then an API called from Front-End named [verify-phone-number-api](#verify-phone-number-api) send code for thatnumber.
+
+ </br>
+
+![Sign-in-up page - 2](src/Sign-in-up-page-2.png)
+
+ Back-End check if user available or need Sign-up after that in response Front-end understand how to handle it.
+ </br>
+ <code>if user availble:</code> Redirect to Dashboard Page
+ </br>
+ <code>if user NOT available:</code> show Sigh-up Fields:
+ </br>
+
+ ![Sign-in-up page - 3](src/Sign-in-up-page-3.png)
+(i use <code>swiper</code> library for sliding bdw)
+then user enter all information and then after next API called [user-sign-up-api](#user-sign-up-api) user will register to our system.
+
+---
+
+## Dashboard-heart-of-system
+
+Our dashboard panel use base <code>Typescript</code> in react <code>TSX</code>
+  </br>
+here is show of our system dashboard:
+  </br>
+
+* Dark-mode:
+  </br>
+
+![Profund-Dashboard-Dark](src/Profund-Dashboard-Dark.png)
+
+* Light-mode:
+
+![Profund-Dashboard-Light](src/Profund-Dashboard-Light.png)
+
+this panel acquired 4 parts:
+* Right-side-panel
+* Dashboard-Main
+* Top-Header
+* Footer
+</br>
+</br>
+
+### **Right-side-panel**
+
+all of files for this panel can found in ---> <code>src\ _metronic \layout \components \sidebar</code>
+
+</br>
+
+![Profund-Dashboard-right-panel](src/Profund-Dashboard-right-panel.png)
+
+this panel also acquired 4 parts:
+* Logo
+* user-base-info
+* Menu-Items
+* footer(exit-button)
+
+Logo handled in <code>SidebarLogo.tsx</code>
+</br>
+user-base-info and Menu-Items also can seprated in <code>SidebarMenuMain.tsx</code>
+</br>
+and footer(exit-button) is in <code>SidebarFooter.tsx</code>
+</br>
+</br>
+
+
+### **Top Header**
+
+all of files for this panel can found in ---> <code>src\ _metronic\layout\components\header\header-menus</code>
+
+</br>
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header.png)
+
+</br>
+
+this panel also acquired 4 parts:
+* Left-Part(some notification and profile info and also dark mode)
+* Right-Part(Menu items)
+
+
+### Right-Part
+
+this part can modarate in <code>MenuInner.tsx</code>
+
+### Left-Part
+
+This part itself have 3 sections:
+* Profile-Basic-Info
+* Light-Dark-Swicher
+* Notification-Panel
+</br>
+
+### Profile-Basic-Info
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header-Profile-basics.png)
+
+this part can be edited in <code>HeaderUserMenu.tsx</code>
+
+
+### Light-Dark-Swicher
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header-Dark-Light-Swicher.png)
+
+
+this part can be edited in <code>ThemeModeSwitcher.tsx</code>
+
+### Light-Dark-Swicher
+
+This section have 2 tabs
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Top-Header-Notification.png)
+
+
+this part can be edited in <code>HeaderNotificationsMenu.tsx</code>
+
+### Footer
+
+all of files for this panel can found in ---> <code>You should NOT change this 😁😅</code>
+
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Footer.png)
+
+### Dashboard-Main 
+
+in this section you have promote to items in main dashboard
+
+all of files for this panel can found in ---> <code>src\app\pages\dashboard</code>
+also change exacly this section: <code>DashboardWrapper.tsx</code>
+
+
+![Profund-Dashboard-top-header](src/Profund-Dashboard-Main.png)
+
+I use widgets for this page that can found in ---> <code>src\ _metronic \partials \widgets</code>
+
+in this directory you can find every cards, tables, charts, mixed and many more things
+
+for example <code>top پروژه های </code> used <code>MixedWidget8</code> that can be found in the said directory. You can use some object when call widgets like this:
+</br>
+<code>
+MixedWidget8 </br>
+className='card-xxl-stretch mb-xl-3'</br>
+chartColor='success'</br>
+chartHeight='150px'</br>
+</code>
+
+---
+</br>
+
+## Work-History
+
+This Page Also is in <code>TS</code>. this page work on APIs like [User Project Info API](#user-project-info-api) and
+[User Investment Info API](#user-investment-info-api)
+  
+  
+  
+  

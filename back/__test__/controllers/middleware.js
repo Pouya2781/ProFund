@@ -1,14 +1,14 @@
+const { User, BannedUser } = require("../../models");
 const jwt = require("jsonwebtoken");
-const { BannedUser, User } = require("../models");
-const config = require("config");
 
-const jwtPrivateKey = config.get("jwt.private_key");
+const apiAccess = { user: ["/api/route"] };
+const jwtPrivateKey = "privateKey";
 
-module.exports = async function (req, res, next) {
+async function authenticateAndAccess(req, res) {
+    ////////// auth middleware
     const token = req.header("x-auth-token");
 
     if (!token) return res.status(401).json({ status: "missing_token", message: "Access denied. auth token required!" });
-    
     
     let decoded = null;
     try {
@@ -40,5 +40,13 @@ module.exports = async function (req, res, next) {
         return res.status(403).json({ status: "banned_user", message: "Access denied. You are banned!" });
 
     req.user = decoded;
-    next();
+
+    ////////// access middleware
+    const role = req.user.role;
+    if (!apiAccess[role].includes(req.originalUrl))
+        return res.status(403).json({ status: "access_denied", message: "Access denied. You don't have access to use this API!" });
+
+    return res.status(200).json({ status: "ok", message: "User authenticated and has access to API!" });
 }
+
+module.exports = { authenticateAndAccess }
