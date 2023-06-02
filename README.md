@@ -2827,7 +2827,7 @@ all of files for this panel can found in ---> <code>src\ _metronic \layout \comp
 
 </br>
 
-![Profund-Dashboard-right-panel](src/Profund-Dashboard-right-panel.png)
+![Profund-Dashboard-right-panel](src/Profund-Dashboard-Right-panel.png)
 
 this panel also acquired 4 parts:
 * Logo
