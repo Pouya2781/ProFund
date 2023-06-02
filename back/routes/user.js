@@ -20,8 +20,8 @@ router.get("/", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     res.status(200).json({
-        data: _.pick(user, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email", "state", "city", "address", "bio", "role"]),
-        message: "user data retrieved successfully!",
+        data: _.pick(user, ["phoneNumber", "fullName", "nationalCode", "birthDate", "email", "state", "city", "address", "bio", "role", "verified"]),
+        message: "User data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -41,7 +41,7 @@ router.get("/wallet", auth, access, asyncMiddleware(async (req, res) => {
 
     res.status(200).json({
         data: _.pick(wallet, ["balance"]),
-        message: "user's wallet data retrieved successfully!",
+        message: "User's wallet data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -66,7 +66,7 @@ router.get("/payment", auth, access, asyncMiddleware(async (req, res) => {
 
     res.status(200).json({
         data: _.map(payments, (item) => _.pick(item, ['amount', 'status', 'createdAt'])),
-        message: "user's payments data retrieved successfully!",
+        message: "User's payments data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -102,7 +102,7 @@ router.get("/projects", auth, access, asyncMiddleware(async (req, res) => {
                 title: item['ProjectDescription.title']
             }
         }),
-        message: "user's projects data retrieved successfully!",
+        message: "User's projects data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -132,7 +132,7 @@ router.get("/invests", auth, access, asyncMiddleware(async (req, res) => {
                 count: item['count']
             }
         }),
-        message: "user's investment data retrieved successfully!",
+        message: "User's investment data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -171,7 +171,7 @@ router.get("/donates", auth, access, asyncMiddleware(async (req, res) => {
                 amount: item['amount'],
             }
         }),
-        message: "user's donates data retrieved successfully!",
+        message: "User's donates data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -211,7 +211,7 @@ router.get("/comments", auth, access, asyncMiddleware(async (req, res) => {
                 id: item['id']
             }
         }),
-        message: "user's comments data retrieved successfully!",
+        message: "User's comments data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -269,7 +269,7 @@ router.get("/replies", auth, access, asyncMiddleware(async (req, res) => {
                 id: item['id']
             }
         }),
-        message: "user's replies data retrieved successfully!",
+        message: "User's replies data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -325,7 +325,7 @@ router.get("/liked-projects", auth, access, asyncMiddleware(async (req, res) => 
                 id: item['id']
             }
         }),
-        message: "user's liked projects data retrieved successfully!",
+        message: "User's liked projects data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -416,7 +416,7 @@ router.get("/disliked-projects", auth, access, asyncMiddleware(async (req, res) 
                 id: item['id']
             }
         }),
-        message: "user's disliked projects data retrieved successfully!",
+        message: "User's disliked projects data retrieved successfully!",
         status: "ok"
     });
 }));
@@ -480,6 +480,37 @@ router.post("/dislike", auth, access, asyncMiddleware(async (req, res) => {
     } catch (ex) {
         return res.status(400).json({ status: "database_error", message: ex.errors[0].message });
     }
+}));
+
+router.post("/edit", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateUserVerificationData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    // Updating and completing user data
+    try {
+        await User.update(
+            {
+                fullName: req.body.fullName,
+                nationalCode: req.body.nationalCode,
+                email: req.body.email,
+                birthDate: req.body.birthDate,
+                state: req.body.state,
+                city: req.body.city,
+                address: req.body.address,
+                bio: req.body.bio
+            },
+            {
+                where: { uuid: req.user.uuid }
+            }
+        );
+    } catch (ex) {
+        return res.status(400).json({ status: "database_error", message: ex.errors[0].message });
+    }
+
+    res.status(200).json({
+        message: "User data updated successfully!",
+        status: "ok"
+    });
 }));
 
 router.post("/verify", auth, access, asyncMiddleware(async (req, res) => {
