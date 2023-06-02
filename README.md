@@ -263,9 +263,10 @@ const res = await fetch("http://localhost:3000/api/user/", {
         city: "Isfahan,
         address: "Moshtagh street, Jeyshir street",
         bio: "Im a backend programmer with no experience",
-        role: "user"
+        role: "user",
+        verified: true
     },
-    message: "user data retrieved successfully!",
+    message: "User data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -315,7 +316,7 @@ const res = await fetch("http://localhost:3000/api/user/wallet", {
     data: {
         balance: 1000000
     },
-    message: "user's wallet data retrieved successfully!",
+    message: "User's wallet data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -374,7 +375,7 @@ const res = await fetch("http://localhost:3000/api/user/payment", {
             createdAt: "2023-05-31T12:15:29.000Z"
         }
     ],
-    message: "user's payments data retrieved successfully!",
+    message: "User's payments data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -449,7 +450,7 @@ const res = await fetch("http://localhost:3000/api/user/projects", {
             title: "Monaliza"
         }
     ],
-    message: "user's projects data retrieved successfully!",
+    message: "User's projects data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -512,7 +513,7 @@ const res = await fetch("http://localhost:3000/api/user/invests", {
             count: 10
         }
     ],
-    "message": "user's investment data retrieved successfully!",
+    "message": "User's investment data retrieved successfully!",
     "status": "ok"
   }
   ```
@@ -566,7 +567,7 @@ const res = await fetch("http://localhost:3000/api/user/donates", {
             amount: 4000102
         }
     ],
-    message: "user's donates data retrieved successfully!",
+    message: "User's donates data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -633,7 +634,7 @@ const res = await fetch("http://localhost:3000/api/user/comments", {
             id: 3
         }
     ],
-    message: "user's comments data retrieved successfully!",
+    message: "User's comments data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -691,7 +692,7 @@ const res = await fetch("http://localhost:3000/api/user/replies", {
             id: 1
         }
     ],
-    message: "user's replies data retrieved successfully!",
+    message: "User's replies data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -752,7 +753,7 @@ const res = await fetch("http://localhost:3000/api/user/liked-projects", {
             id: 2
         }
     ],
-    message: "user's liked projects data retrieved successfully!",
+    message: "User's liked projects data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -813,7 +814,7 @@ const res = await fetch("http://localhost:3000/api/user/disliked-projects", {
             id: 2
         }
     ],
-    message: "user's disliked projects data retrieved successfully!",
+    message: "User's disliked projects data retrieved successfully!",
     status: "ok"
   }
   ```
@@ -934,7 +935,7 @@ This API is used to invest in a specific token from a project.
 ### URL
 ```/api/user/invest```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1018,7 +1019,7 @@ This API is used to donate to a specific project.
 ### URL
 ```/api/user/donate```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1098,7 +1099,7 @@ This API is used to comment on a specific project.
 ### URL
 ```/api/user/comment```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1162,7 +1163,7 @@ This API is used to reply to a specific comment.
 ### URL
 ```/api/user/reply```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1226,7 +1227,7 @@ This API is used to like a specific project or become neutral if already liked.
 ### URL
 ```/api/user/like```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1295,7 +1296,7 @@ This API is used to dislike a specific project or become neutral if already disl
 ### URL
 ```/api/user/dislike```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1358,6 +1359,90 @@ const res = await fetch("http://localhost:3000/api/user/dislike", {
   ```
 * **Code:** 500 <br/>
   **Content:** ```{ status: "internal_error", message: "Internal error!" }```
+## User Edit API
+### Introduction
+This API is used to edit current user's info.
+### URL
+```/api/user/edit```
+### Method
+`POST`
+### API Access
+`USER`
+### Request Header
+This API needs x-auth-token header in order to work.
+| Header Name | Type | Example Value |
+| ----- | ----- | ----- |
+| x-auth-token | `string` | eyJhbGciOiJIUzI1NiIsInR |
+### Request Parameters
+| Parameter Name | Type | Required | Example Value
+| ----- | ----- | ----- | ----- |
+| fullName | `string` | `true` | Pouya Sadat
+| email | `string` | `true` | pouya@gmail.com
+| birthDate | `string` | `true` | 2002-07-18
+| nationalCode | `string` | `true` | 1234567890
+| state | `string` | `true` | Isfahan
+| city | `string` | `true` | Isfahan
+| address | `string` | `true` | Moshtagh street, Jeyshir street
+| bio | `string` | `true` | Im a backend programmer with no experience
+### Sample Request Call
+```
+const res = await fetch("http://localhost:3000/api/user/edit", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
+                },
+                body: JSON.stringfy(
+                    {
+                        fullName: "Pouya Sadat",
+                        email: "pouya@gmail.com",
+                        birthDate: "2002-07-18",
+                        nationalCode: "1234567890",
+                        state: "Isfahan",
+                        city: "Isfahan",
+                        address: "Moshtagh street, Jeyshir street",
+                        bio: "Im a backend programmer with no experience"
+                    }
+                )
+            });
+```
+### Response
+* **Code:** 200 <br/>
+  **Content:** ```{ status: "ok", message: "User data updated successfully!" }```
+* **Code:** 400 <br/>
+  **Content:**
+  ```
+  { status: "validation_fail", message: "\"fullName\" is required" }
+  ```
+  OR
+  ```
+  { status: "invalid_token", message: "Invalid token!" }
+  ```
+  OR
+  ```
+  { status: "database_error", message: "nationalCode must be unique!" }
+  ```
+  OR
+  ```
+  { status: "missing_id_card_pic", message: "ID card picture must be uploaded before calling this API!" }
+  ```
+  OR
+  ```
+  { status: "missing_profile_pic", message: "Profile picture must be uploaded before calling this API!" }
+  ```
+* **Code:** 401 <br/>
+  **Content:** ```{ status: "missing_token", message: "Access denied. auth token required!" }```
+* **Code:** 403 <br/>
+  **Content:**
+  ```
+  { status: "banned_user", message: "Access denied. You are banned!" }
+  ```
+  OR
+  ```
+  { status: "access_denied", message: "Access denied. You don't have access to use this API!" }
+  ```
+* **Code:** 500 <br/>
+  **Content:** ```{ status: "internal_error", message: "Internal error!" }```
 ## User Verify API
 ### Introduction
 This API is used to verify current user.
@@ -1365,7 +1450,7 @@ Note: This API should be called after that id card picture and profile picture h
 ### URL
 ```/api/user/verify```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1408,7 +1493,7 @@ const res = await fetch("http://localhost:3000/api/user/verify", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:** ```{ status: "ok", message: "user data updated and completed successfully!" }```
+  **Content:** ```{ status: "ok", message: "User data updated and completed successfully!" }```
 * **Code:** 400 <br/>
   **Content:**
   ```
@@ -1449,7 +1534,7 @@ This API is used to upload ID card picture of current user.
 ### URL
 ```/api/user/upload-id-card-pic```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1506,7 +1591,7 @@ This API is used to upload profile picture of current user.
 ### URL
 ```/api/user/upload-profile-pic```
 ### Method
-`POSt`
+`POST`
 ### API Access
 `USER`
 ### Request Header
@@ -1811,7 +1896,7 @@ const res = await fetch("http://localhost:3000/api/admin/user", {
             updatedAt: "2023-05-31T11:15:32.000Z"
         }
     ],
-    message: "user list retrieved successfully!",
+    message: "User list retrieved successfully!",
     status: "ok"
   }
   ```
@@ -2454,7 +2539,7 @@ const res = await fetch("http://localhost:3000/api/super/user", {
             updatedAt: "2023-05-30T12:00:34.000Z"
         }
     ],
-    message: "user list retrieved successfully!",
+    message: "User list retrieved successfully!",
     status: "ok"
   }
   ```
@@ -2515,7 +2600,7 @@ const res = await fetch("http://localhost:3000/api/super/user/promote", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:** ```{ status: "ok", message: "user promoted successfully!" }```
+  **Content:** ```{ status: "ok", message: "User promoted successfully!" }```
 * **Code:** 400 <br/>
   **Content:** 
   ```
@@ -2573,7 +2658,7 @@ const res = await fetch("http://localhost:3000/api/super/user/demote", {
 ```
 ### Response
 * **Code:** 200 <br/>
-  **Content:** ```{ status: "ok", message: "user demoted successfully!" }```
+  **Content:** ```{ status: "ok", message: "User demoted successfully!" }```
 * **Code:** 400 <br/>
   **Content:** 
   ```
