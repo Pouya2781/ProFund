@@ -4,6 +4,54 @@ This project is developed to help people find investors for their projects and a
 # APIs
 In this part you can find information about developed APIs and how to use them properly.
 
+## Auth APIs
+* **[Check Authentication API](#check-authentication-api)**</br>
+* **[Phone Number API](#check-authentication-api)**</br>
+* **[Verify Phone Number API](#verify-phone-number-api)**</br>
+* **[User Sign Up API](#user-sign-up-api)**
+
+## User APIs
+* **[User Info API](#user-info-api)**</br>
+* **[User Wallet Info API](#user-wallet-info-api)**</br>
+* **[User Payment Info API](#user-payment-info-api)**</br>
+* **[User Project Info API](#user-project-info-api)**</br>
+* **[User Investment Info API](#user-investment-info-api)**</br>
+* **[User Donate Info API](#user-donate-info-api)**</br>
+* **[User Comment Info API](#user-comment-info-api)**</br>
+* **[User Reply Info API](#user-reply-info-api)**</br>
+* **[User Liked Projects API](#user-liked-projects-api)**</br>
+* **[User Disliked Projects API](#user-disliked-projects-api)**</br>
+* **[User Profile Picture API](#user-profile-picture-api)**</br>
+* **[User Invest API](#user-invest-api)**</br>
+* **[User Donate API](#user-donate-api)**</br>
+* **[User Comment API](#user-comment-api)**</br>
+* **[User Reply API](#user-reply-api)**</br>
+* **[User Like API](#user-like-api)**</br>
+* **[User Dislike API](#user-dislike-api)**</br>
+* **[User Edit API](#user-edit-api)**</br>
+* **[User Verify API](#user-verify-api)**</br>
+* **[User Upload ID Card Picture API](#user-upload-id-card-picture-api)**</br>
+* **[User Upload Profile Picture API](#user-upload-profile-picture-api)**</br>
+* **[User Verify API](#user-verify-api)**</br>
+* **[User Verify API](#user-verify-api)**
+
+## Admin APIs
+* **[Admin Users API](#admin-users-api)**</br>
+* **[Admin Projects API](#admin-projects-api)**</br>
+* **[Admin User Search API](#admin-user-search-api)**</br>
+* **[Admin Project Search API](#admin-project-search-api)**</br>
+* **[Admin Project Approve API](#admin-project-approve-api)**</br>
+* **[Admin Project Delete API](#admin-project-delete-api)**</br>
+* **[Admin Project Fund API](#admin-project-fund-api)**</br>
+* **[Admin Project Close API](#admin-project-close-api)**</br>
+* **[Admin User Delete API](#admin-user-delete-api)**</br>
+* **[Admin User Ban API](#admin-user-ban-api)**</br>
+* **[Admin User Unban API](#admin-user-unban-api)**
+
+## Super Admin APIs
+* **[Super Admin Users API](#super-admin-users-api)**</br>
+* **[Super Admin User Promote API](#super-admin-user-promote-api)**</br>
+* **[Super Admin User Demote API](#super-admin-user-demote-api)**</br>
 # Auth APIs
 APIs discussed hear are mainly used in authentication process.
 
@@ -29,7 +77,7 @@ const res = await fetch("http://localhost:3000/api/auth/check", {
                 headers: {
                     'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5c"
                 }
-            });ّ
+            });
 ```
 ### Response
 * **Code:** 200 <br/>
@@ -65,7 +113,7 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
                         phoneNumber: "09131234567"
                     }
                 )
-            });ّ
+            });
 ```
 ### Response
 * **Code:** 200 <br/>
@@ -106,7 +154,7 @@ const res = await fetch("http://localhost:3000/api/auth/number", {
                         code: "123456"
                     }
                 )
-            });ّ
+            });
 ```
 ### Response Header
 This API gives x-ver-token header if user is new and x-auth-token if user has already sign up.
@@ -178,7 +226,7 @@ const res = await fetch("http://localhost:3000/api/auth/add", {
                         fullName: "Pouya Sadat"
                     }
                 )
-            });ّ
+            });
 ```
 ### Response
 * **Code:** 200 <br/>
