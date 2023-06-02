@@ -21,6 +21,7 @@ In this part you can find information about developed APIs and how to use them p
 * **[User Reply Info API](#user-reply-info-api)**</br>
 * **[User Liked Projects API](#user-liked-projects-api)**</br>
 * **[User Disliked Projects API](#user-disliked-projects-api)**</br>
+* **[User ID Card Picture API](#user-id-card-picture-api)**</br>
 * **[User Profile Picture API](#user-profile-picture-api)**</br>
 * **[User Invest API](#user-invest-api)**</br>
 * **[User Donate API](#user-donate-api)**</br>
@@ -31,9 +32,7 @@ In this part you can find information about developed APIs and how to use them p
 * **[User Edit API](#user-edit-api)**</br>
 * **[User Verify API](#user-verify-api)**</br>
 * **[User Upload ID Card Picture API](#user-upload-id-card-picture-api)**</br>
-* **[User Upload Profile Picture API](#user-upload-profile-picture-api)**</br>
-* **[User Verify API](#user-verify-api)**</br>
-* **[User Verify API](#user-verify-api)**
+* **[User Upload Profile Picture API](#user-upload-profile-picture-api)**
 
 ## Admin APIs
 * **[Admin Users API](#admin-users-api)**</br>
