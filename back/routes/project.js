@@ -205,7 +205,8 @@ router.post("/reply", auth, access, asyncMiddleware(async (req, res) => {
         include: [User],
         where: {
             commentId: req.body.id
-        }
+        },
+        raw: true
     });
 
     res.status(200).json({
