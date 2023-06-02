@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { BannedUser, User } = require("../models");
+const config = require("config");
+
+const jwtPrivateKey = config.get("jwt.private_key");
 
 module.exports = async function (req, res, next) {
     const token = req.header("x-auth-token");
@@ -9,10 +12,10 @@ module.exports = async function (req, res, next) {
     
     let decoded = null;
     try {
-        decoded = jwt.verify(token, "privateKey");
+        decoded = jwt.verify(token, jwtPrivateKey);
     }
     catch (ex) {
-        res.status(400).json({ status: "invalid_token", message: "Invalid token!" });
+        return res.status(400).json({ status: "invalid_token", message: "Invalid token!" });
     }
 
     let bannedUser = null;
