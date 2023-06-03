@@ -76,8 +76,8 @@ async function AddProjectStep1(req, res) {
       category: null,
       investedAmount:null,
       investorCount:null,
-      hasDonate:false,
-      hasToken:false,
+      hasDonate:true,
+      hasToken:true,
       status:"creating1",
       expirationDate:null,
     });
@@ -109,7 +109,7 @@ async function AddProjectStep2(req, res) {
     logger.error('Error: token validation failed')
     return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
   }
-  
+
     // Check if a file was uploaded
     if (!req.file) {
       logger.error('no file found')

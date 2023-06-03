@@ -28,5 +28,6 @@ function validateIdData(body){
 }
 module.exports = {
   validateProjectTitleandSubtitle: validateProjectTitleandSubtitle,
-  validatetoken: validatetoken
+  validatetoken: validatetoken,
+  validateIdData: validateIdData
 };
