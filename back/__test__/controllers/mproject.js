@@ -17,11 +17,6 @@ const logger = winston.createLogger({
 });
 const router = express.Router();
 
-// project id and project description id
-let new_project_id = 0;
-let new_projectdesc_id = 0;
-let new_token_id = 0;
-
 // Step 1: Create project /////////////////////////////////////////////////////////////////
 async function AddProjectStep1(req, res) {
     // Image is required
@@ -86,22 +81,21 @@ async function AddProjectStep1(req, res) {
       status:"creating1",
       expirationDate:null,
     });
-  
-    new_project_id = project.id;
-  
+    
     // Create the project subtitle
     const project_description = await ProjectDescription.create({
-      projectId: new_project_id,
+      projectId: project.id,
       title: req.body.title,
       subtitle: req.body.subtitle,
       mainPic: mainPic_path,
       presentation: null,
     });
-  
-    new_projectdesc_id = project_description.id;
-  
+    
     // Proceed to the next step or return a response indicating successful completion
     res.status(200).json({
+      data: {
+        id: project.id,
+      },
       message: "Step 1 completed successfully!",
       status: "ok",
     });
@@ -110,7 +104,6 @@ async function AddProjectStep1(req, res) {
 
 // Step 2: Create project description /////////////////////////////////////////////////////////////////
 async function AddProjectStep2(req, res) {
-    const project = await Project.findOne({ where: { id: new_project_id } });
     // Check if a file was uploaded
     if (!req.file) {
       logger.error('no file found')
@@ -135,16 +128,16 @@ async function AddProjectStep2(req, res) {
     const pFileWithoutExtension = path.parse(req.file.originalname).name;
     const presentationFilename = `${pFileWithoutExtension}-${req.user.uuid}-presentation${path.extname(req.file.originalname)}`;
     // Store the uploaded image with the new filename
-    const presentation_path = path.join(__dirname, '../', 'resources/presentation', presentationFilename);
+    const presentation_path = path.join(__dirname, '../../', 'resources/presentation', presentationFilename);
     fs.renameSync(req.file.path, presentation_path);
   
     // Update project description and status
     try {
       await ProjectDescription.update({
-        presentation: presentation_path,
+        presentation: presentationFilename,
       }, {
         where: {
-          id: new_projectdesc_id
+          id: req.body.id
         }
       });
     } catch (ex) {
@@ -157,7 +150,7 @@ async function AddProjectStep2(req, res) {
         status:"creating2"
       }, {
         where:{
-          id: new_project_id
+          id: req.body.id
         }
       }
       );
