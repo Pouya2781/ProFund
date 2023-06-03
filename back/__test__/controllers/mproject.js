@@ -162,6 +162,9 @@ async function AddProjectStep2(req, res) {
   
     // Proceed to the next step or return a response indicating successful completion
     res.status(200).json({
+      data: {
+        id: req.body.id,
+      },
       message: "Step 2 completed successfully!",
       status: "ok",
     });

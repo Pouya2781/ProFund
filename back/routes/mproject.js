@@ -22,13 +22,6 @@ const logger = winston.createLogger({
 });
 const router = express.Router();
 
-// project id and project description id
-let new_project_id = 0;
-let new_projectdesc_id = 0;
-let new_token_id = 0;
-const user = 0
-
-
 // Step 1: Create project (Project title)
 router.post("/step1", auth, access, multer({ dest: "resources/mproject_main_pic" }).single("mainPic"), asyncMiddleware(AddProjectStep1));
 
@@ -39,7 +32,7 @@ router.post("/step2", auth, access, multer({ dest: "resources/presentation" }).s
 // Step 3: Create token and Donation module
 router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
   // Validate the token price and description
-  const { error } = validatetoken(req.body.tokenName, req.body.tokenDescription, req.body.tokenCost);
+  const { error } = validatetoken(req.body);
   if (error) {
     logger.error('Error: token validation failed')
     return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
@@ -47,19 +40,18 @@ router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
 
   // Create token
   await Token.create({
-    projectId: new_project_id,
+    projectId: req.body.id,
     price: req.body.tokenCost,
     limit: null,
     description: req.body.tokenDescription,
   });
-  new_token_id = Token.id;
   // update project status
   try{
     await Project.update({
       status:"creating3"
     }, {
       where:{
-        id: new_project_id
+        id: req.body.id
       }
     }
     );
@@ -70,6 +62,10 @@ router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
 
   // Proceed to the next step or return a response indicating successful completion
   res.status(200).json({
+    data: {
+      id: req.body.id,
+      token_id: Token.id,
+    },
     message: "Step 3 completed successfully!",
     status: "ok",
   });
@@ -80,28 +76,28 @@ router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
 router.get("/step4", auth, access, asyncMiddleware(async (req, res) => {
   try {
     // Retrieve the project information from the database
-    const project = await Project.findOne({ where: { id: new_project_id } });
+    const project = await Project.findOne({ where: { id: req.body.id } });
     if (!project) {
-      logger.error(`Project not found for ID: ${new_project_id}`);
+      logger.error(`Project not found for ID: ${req.body.id}`);
       return res.status(404).json({ status: "not_found", message: "Project not found" });
     }
-    logger.info(`Retrieved project with ID: ${new_project_id}`);
+    logger.info(`Retrieved project with ID: ${req.body.id}`);
 
     // Retrieve the project description from the database
-    const projectDescription = await ProjectDescription.findOne({ where: { projectId: new_project_id } });
+    const projectDescription = await ProjectDescription.findOne({ where: { projectId: req.body.id } });
     if (!projectDescription) {
-      logger.error(`Project description not found for project ID: ${new_project_id}`);
+      logger.error(`Project description not found for project ID: ${req.body.id}`);
       return res.status(404).json({ status: "not_found", message: "Project description not found" });
     }
-    logger.info(`Retrieved project description for project ID: ${new_project_id}`);
+    logger.info(`Retrieved project description for project ID: ${req.body.id}`);
 
     // Retrieve the token details from the database
-    const token = await Token.findOne({ where: { id: new_token_id } });
+    const token = await Token.findOne({ where: { id: req.body.token_id } });
     if (!token) {
-      logger.error(`Token not found for ID: ${new_token_id}`);
+      logger.error(`Token not found for ID: ${req.body.token_id}`);
       return res.status(404).json({ status: "not_found", message: "Token not found" });
     }
-    logger.info(`Retrieved token with ID: ${new_token_id}`);
+    logger.info(`Retrieved token with ID: ${req.body.token_id}`);
 
     // Combine the retrieved information into a single object
     const data = {
@@ -111,11 +107,13 @@ router.get("/step4", auth, access, asyncMiddleware(async (req, res) => {
     };
 
     // Update project status to "pending approval"
-    await Project.update({ status: "pending approval" }, { where: { id: new_project_id } });
-    logger.info(`Updated project status to 'pending approval' for project ID: ${new_project_id}`);
+    await Project.update({ status: "pending approval" }, { where: { id: req.body.id } });
+    logger.info(`Updated project status to 'pending approval' for project ID: ${req.body.id}`);
 
     res.status(200).json({
-      data,
+      data: {
+        id: req.body.id,
+      },
       message: "Step 4 completed successfully!",
       status: "ok",
     });
