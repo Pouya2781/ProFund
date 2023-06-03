@@ -73,7 +73,7 @@
 
 
                 <div id="editor">
-                    <p>Hello World!</p>
+                    <p>توضیحات کامل پروژه خد را وارد کنید.</p>
                 </div>
 
 
@@ -237,27 +237,37 @@
     </script>
     <script>
 
-        document.getElementById('sendButton').addEventListener('click', async function() {
-            // Get the HTML content from the Quill editor
-            var htmlContent = quill.root.innerHTML;
-          
-            // Prepare the data for the API request
-            var requestData = {
-              htmlContent: htmlContent
-              // Add any additional data you want to send along with the HTML content
-            };
-
+        
             
-            console.log(requestData);
+
+          
+
+
+        document.getElementById('sendButton').addEventListener('click', async function() {
+
+            var htmlContent = quill.root.innerHTML;
+            
+            const filename = 'example.html';
+            const text = htmlContent;
+            // Create a new Blob object
+            const blob = new Blob([text], { type: 'text/html' });
+          
+            // Create a temporary anchor element
+            
+            const formData = new FormData();
+            formData.append('presentation', blob);
+            
+            
+    
+
           
             try {
-              const res = await fetch('http://localhost:3000/api/add/projecthtml', {
+              const res = await fetch('http://localhost:3000/api/mproject/step2', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
                   'x-auth-token': 'user_token',
                 },
-                body: JSON.stringify(requestData)
+                body: formData
               });
           
               if (res.ok) {
@@ -269,7 +279,7 @@
 
                   window.location = 'page5.html';
 
-                }, 500);
+                }, 5000);
 
 
               } else {

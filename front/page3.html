@@ -168,11 +168,11 @@
             formData.append('subtitle', projectShortDetail);
             formData.append('mainPic', projectPic.files[0]); // append projectPic to mainPic
             
-            const res = await fetch('http://localhost:3000/api/add/project', {
+            const res = await fetch('http://localhost:3000/api/mproject/step1', {
               method: 'POST',
               headers: {
                 // we need our token for verify
-                'x-auth-token': 'user_token',
+                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiYTA5MDU0NWItZjQ1Ny00MWIwLWIyMzMtNDNmNjZlYzdmZWFjIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2ODU3ODI5MjV9.teV6A3ep3rvEMeJ1aTc7fbe1_qfGCbW9vmMdU5qtldQ',
               },
               body: formData
             });
@@ -181,7 +181,9 @@
 
 
         const handleSendStepOne = async () => {
-            const res = await SendStepOneAPI();
+        const res = await SendStepOneAPI();
+        const data = await res.json();
+
             
 
             if(res.ok){
@@ -190,7 +192,7 @@
 
                 setTimeout(() => {
 
-                    window.location = "page4.html";
+                    window.location = `page4.html/${data?.data?.id}`;
             
                   }, 1000);
 

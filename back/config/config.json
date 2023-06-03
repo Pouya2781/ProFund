@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "6262",
-    "database": "testing_add_project",
+    "password": "new_password",
+    "database": "profund_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
