@@ -38,6 +38,7 @@
             "/api/mproject/step1",
             "/api/mproject/step2",
             "/api/mproject/step3",
+            "/api/mproject/addtoken",
             "/api/mproject/step4",
             "/api/mproject/step5",
             "/api/project/",

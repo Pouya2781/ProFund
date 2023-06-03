@@ -42,7 +42,7 @@ async function AddProjectStep1(req, res) {
     }
     
   
-    // Validate the image file size and type
+    // Validate the image file size and format
     const fileTypes = /jpeg|jpg|png/;
     const extName = fileTypes.test(path.extname(req.file.originalname).toLowerCase());
     const mimeType = fileTypes.test(req.file.mimetype);
@@ -104,6 +104,12 @@ async function AddProjectStep1(req, res) {
 
 // Step 2: Create project description /////////////////////////////////////////////////////////////////
 async function AddProjectStep2(req, res) {
+  const {error} = validateIdData(req.body);
+  if (error) { 
+    logger.error('Error: token validation failed')
+    return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+  }
+  
     // Check if a file was uploaded
     if (!req.file) {
       logger.error('no file found')

@@ -6,7 +6,7 @@ const access = require('../middleware/access');
 const fs = require('fs');
 const multer = require("multer");
 const path = require("path");
-const { validatetoken } = require('../validators/mproject');
+const { validatetoken, validateIdData } = require('../validators/mproject');
 const winston = require('winston');
 const { log } = require('console');
 const {AddProjectStep1, AddProjectStep2 } = require('../__test__/controllers/mproject');
@@ -29,23 +29,43 @@ router.post("/step1", auth, access, multer({ dest: "resources/mproject_main_pic"
 router.post("/step2", auth, access, multer({ dest: "resources/presentation" }).single("presentation"), asyncMiddleware(AddProjectStep2));
 
 
-// Step 3: Create token and Donation module
-router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
+// add token: Create token and Donation module
+router.post("/addtoken", auth, access, asyncMiddleware(async (req, res) => {
+
   // Validate the token price and description
   const { error } = validatetoken(req.body);
   if (error) {
     logger.error('Error: token validation failed')
     return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
   }
-
   // Create token
   await Token.create({
     projectId: req.body.id,
-    price: req.body.tokenCost,
-    limit: null,
-    description: req.body.tokenDescription,
+    price: req.body.price,
+    limit: req.body.limit,
+    description: req.body.description,
   });
-  // update project status
+
+  res.status(200).json({
+    data: {
+      id: req.body.id,
+      token_id: Token.id,
+    },
+    message: "token added successfully!",
+    status: "ok",
+  });
+  logger.info('token added successfully!');
+}));
+
+// 
+router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
+  const {err} = validateIdData(req.body);
+  if (err) { 
+    logger.error('Error: id validation failed')
+    return res.status(400).json({ status: "validation_fail", message: err.details[0].message });
+  }
+
+    // update project status
   try{
     await Project.update({
       status:"creating3"
@@ -60,20 +80,23 @@ router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
     return res.status(400).json({ status: "database_error", message: ex.errors[0].message });
   }
 
-  // Proceed to the next step or return a response indicating successful completion
   res.status(200).json({
     data: {
       id: req.body.id,
-      token_id: Token.id,
+      token_id: req.body.token_id,
     },
     message: "Step 3 completed successfully!",
     status: "ok",
   });
   logger.info('Step 3 completed successfully!');
 }));
-
 // Step 4: adding project confirmation
 router.get("/step4", auth, access, asyncMiddleware(async (req, res) => {
+  const {error} = validateIdData(req.body);
+  if (error) { 
+    logger.error('Error: token validation failed')
+    return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+  }
   try {
     // Retrieve the project information from the database
     const project = await Project.findOne({ where: { id: req.body.id } });
