@@ -672,7 +672,7 @@ router.get("/profile-pic", auth, access, asyncMiddleware(async (req, res) => {
     });
 
     if (user.profilePic == null)
-        return res.status(200).json({ status: "missing_profile_pic", message: "There is no profile picture for this user!" });
+        return res.status(400).json({ status: "missing_profile_pic", message: "There is no profile picture for this user!" });
 
     res.status(200).sendFile(path.join(path.resolve(__dirname, ".."), "resources/profile_pic", user.profilePic));
 }));
