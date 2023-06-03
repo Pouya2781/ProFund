@@ -57,10 +57,10 @@
 
         <br />
 
-        <div class="row">
+        <div id="projects" class="row">
             <div id="list"></div>
 
-            <div class="col-sm-4">
+            <!-- <div class="col-sm-4">
                 <div class="product">
                     <div class="row">
                         <div class="col-sm-6">
@@ -158,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
         </div>
@@ -167,38 +167,30 @@
 
 
     <script>
-        $(document).ready(function () {
-            debugger
-            fetch('/api/project/info', {
+        document.getElementById("searchbar").addEventListener("input", async (e) => {
+            console.log("change");
+            const res = await fetch('http://localhost:3000/api/project/', {
                 method: 'POST',
                 headers:{
-                    'Content-Type': "text/json"
+                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDhjODA1NjctNGNmYi00MGI4LWI1Y2MtMWNhYjU0ZGY5NTlkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2ODUyODAzNjR9.QhgBQmqZskspk5BRPMZm7x4AlE6aAEqMLAoLZKz34Ns",
+                    'Content-Type': "application/json"
                 },
                 body: JSON.stringify({
-                   title: document.getElementById("searchbar").value
+                   title: document.getElementById("searchbar").value,
+                   status: "active"
                 })
-            })
-                .then(data => {
-
-                    console.log(data);
-
-                    var html = '';
-
-                    data.forEach(
-                        (a, b, c, d) =>
-                            html += '<div class="col-sm-4">< div class="product">'
-                            + '<div class="row"><div class="col-sm-6"><h4>' + a + '</h4></div>'
-                            + '<div class="col-sm-6"><h5>' + b + '</h5></div></div>'
-                            + '<div class="row"><div class="col-sm-12"><textarea class="product-area" disabled>' + c + '</textarea></div></div>'
-                            + '<div class="row"><div class="col-sm-9"></div><div class="col-sm-3"><button class="product-button" onclick = "getProduct(' + d + ')">اقدام کنید</button></div></div></div>'
+            });
+            const json = await res.json();
+            data = json.data;
+            document.getElementById("projects").innerHTML = "";
+            data.forEach(
+                        (item) =>
+                            document.getElementById("projects").innerHTML += '<div class="col-sm-4">< div class="product">'
+                            + '<div class="row"><div class="col-sm-6"><h4>' + item.title + '</h4></div>'
+                            + '<div class="col-sm-6"><h5>' + item.title + '</h5></div></div>'
+                            + '<div class="row"><div class="col-sm-12"><textarea class="product-area" disabled>' + item.subtitle + '</textarea></div></div>'
+                            + '<div class="row"><div class="col-sm-9"></div><div class="col-sm-3"><button class="product-button" onclick = "getProduct(' + item.id + ')">اقدام کنید</button></div></div></div>'
                     );
-
-                    document.getElementById('list').innerHTML = html;
-
-                })
-                .catch(error => {
-                    //alert("خطا در دریافت اطلاعات از سرور");
-                });
         });
 
 
