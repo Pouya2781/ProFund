@@ -90,6 +90,7 @@ router.post("/step3", auth, access, asyncMiddleware(async (req, res) => {
   });
   logger.info('Step 3 completed successfully!');
 }));
+
 // Step 4: adding project confirmation
 router.get("/step4", auth, access, asyncMiddleware(async (req, res) => {
   const {error} = validateIdData(req.body);
@@ -135,7 +136,7 @@ router.get("/step4", auth, access, asyncMiddleware(async (req, res) => {
 
     res.status(200).json({
       data: {
-        id: req.body.id,
+        ...data
       },
       message: "Step 4 completed successfully!",
       status: "ok",
