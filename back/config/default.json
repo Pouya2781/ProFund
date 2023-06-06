@@ -46,6 +46,8 @@
             "/api/project/tokens",
             "/api/project/comment",
             "/api/project/reply",
+            "/api/project/like",
+            "/api/project/dislike",
             "/api/project/presentation",
             "/api/project/main-pic"
         ],

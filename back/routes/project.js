@@ -5,6 +5,7 @@ const access = require("../middleware/access");
 const asyncMiddleware = require("../middleware/async");
 const { validateProjectSearchData, validateIdData } = require("../validators/project");
 const { Op } = require('sequelize');
+const path = require("path");
 const express = require("express");
 const router = express.Router();
 
@@ -26,6 +27,8 @@ router.get("/", auth, access, asyncMiddleware(async (req, res) => {
 router.post("/", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateProjectSearchData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    await sleep(1000);
 
     let projects;
     if (req.body.status !== undefined) {
@@ -89,6 +92,7 @@ router.post("/", auth, access, asyncMiddleware(async (req, res) => {
                 hasToken: item['hasToken'],
                 status: item['status'],
                 expirationDate: item['expirationDate'],
+                createdAt: item['createdAt'],
                 title: item['ProjectDescription.title'],
                 subtitle: item['ProjectDescription.subtitle']
             }
@@ -102,6 +106,8 @@ router.post("/info", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
+    await sleep(1000);
+    
     const project = await Project.findOne({
         include: [ProjectDescription],
         where: {
@@ -109,6 +115,7 @@ router.post("/info", auth, access, asyncMiddleware(async (req, res) => {
         },
         raw: true
     });
+    if (project == null) return res.status(400).json({ status: "project_not_found", message: "Project not found!" });
 
     res.status(200).json({
         data: {
@@ -135,28 +142,30 @@ router.post("/tokens", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
+    await sleep(1000);
+    
     const tokens = await Token.findAll({
         where: {
             projectId: req.body.id
         }
     });
 
-    boughtCounts = [];
+    let boughtCounts = [];
     for (let i = 0; i < tokens.length; i++) {
         const tokenInvests = await Invest.findAll({
             where: {
                 tokenId: tokens[i].id
-            }
+            },
+            raw: true
         });
         const boughtCount = _.sumBy(tokenInvests, 'count');
         boughtCounts[i] = boughtCount;
     }
-    const iterator = boughtCounts[Symbol.iterator]();
-
+    
     res.status(200).json({
-        data: _.map(tokens, (item) => {
+        data: tokens.map((item, index) => {
             return {
-                boughtCount: iterator.next().value,
+                boughtCount: boughtCounts[index],
                 projectId: item.projectId,
                 price: item.price,
                 limit: item.limit,
@@ -224,19 +233,81 @@ router.post("/reply", auth, access, asyncMiddleware(async (req, res) => {
     });
 }));
 
-router.post("/main-pic", auth, access, asyncMiddleware(async (req, res) => {
+router.post("/like", auth, access, asyncMiddleware(async (req, res) => {
     const { error } = validateIdData(req.body);
     if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
 
+    const likes = await Like.findAll({
+        include: [User],
+        where: {
+            liked: true,
+            projectId: req.body.id
+        },
+        raw: true
+    });
+
+    res.status(200).json({
+        data: _.map(likes, (item) => {
+            return {
+                userId: item['userId'],
+                projectId: item['projectId'],
+                createdAt: item['createdAt'],
+                fullName: item['User.fullName']
+            }
+        }),
+        message: "Project likes retrieved successfully!",
+        status: "ok"
+    });
+}));
+
+router.post("/dislike", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateIdData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+
+    const dislikes = await Like.findAll({
+        include: [User],
+        where: {
+            liked: false,
+            projectId: req.body.id
+        },
+        raw: true
+    });
+
+    res.status(200).json({
+        data: _.map(dislikes, (item) => {
+            return {
+                userId: item['userId'],
+                projectId: item['projectId'],
+                createdAt: item['createdAt'],
+                fullName: item['User.fullName']
+            }
+        }),
+        message: "Project dislikes retrieved successfully!",
+        status: "ok"
+    });
+}));
+
+async function sleep(miliseconds) {
+    return new Promise((resolve) => setTimeout(resolve, miliseconds));
+}
+
+router.post("/main-pic", auth, access, asyncMiddleware(async (req, res) => {
+    const { error } = validateIdData(req.body);
+    if (error) return res.status(400).json({ status: "validation_fail", message: error.details[0].message });
+    
+    await sleep(1000);
+    
     const project = await Project.findOne({
+        include: [ProjectDescription],
         where: {
             id: req.body.id
-        }
+        },
+        raw: true
     });
     if (project == null) return res.status(400).send("Project not found!");
-    if (project.mainPic == null) return res.status(400).json("There is no main picture for this project!");
+    if (project['ProjectDescription.mainPic'] == null) return res.status(400).json("There is no main picture for this project!");
 
-    res.status(200).sendFile(path.join(path.resolve(__dirname, ".."), "resources/main_pic", project.mainPic));
+    res.status(200).sendFile(path.join(path.resolve(__dirname, ".."), "resources/main_pic", project['ProjectDescription.mainPic']));
 }));
 
 router.post("/presentation", auth, access, asyncMiddleware(async (req, res) => {
