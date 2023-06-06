@@ -54,6 +54,18 @@ async function donateToProject(projectId, userUuid, amount) {
         }
     });
 
+    const invest = await Invest.findOne({
+        include: [{
+            model:Token,
+            where: {
+                projectId: projectId
+            }
+        }],
+        where: {
+            userId: user.id
+        }
+    });
+
     if (donate == null) {
         await Donate.create({
             userId: user.id,
@@ -74,15 +86,27 @@ async function donateToProject(projectId, userUuid, amount) {
         );
     }
 
-    await Project.update(
-        {
-            investedAmount: project.investedAmount + amount,
-            investorCount: project.investorCount + 1
-        },
-        {
-            where: { id: projectId }
-        }
-    );
+    if (invest == null && donate == null) {
+        await Project.update(
+            {
+                investedAmount: project.investedAmount + amount,
+                investorCount: project.investorCount + 1
+            },
+            {
+                where: { id: projectId }
+            }
+        );
+    } else {
+        await Project.update(
+            {
+                investedAmount: project.investedAmount + amount
+            },
+            {
+                where: { id: projectId }
+            }
+        );
+    }
+    
     await Wallet.update(
         {
             balance: wallet.balance - amount
@@ -167,6 +191,13 @@ async function buyProjectToken(tokenId, userUuid, count) {
         }
     });
 
+    const donate = await Donate.findOne({
+        where: {
+            projectId: project.id,
+            userId: user.id
+        }
+    });
+
     if (invest == null) {
         await Invest.create({
             userId: user.id,
@@ -187,15 +218,27 @@ async function buyProjectToken(tokenId, userUuid, count) {
         );
     }
 
-    await Project.update(
-        {
-            investedAmount: project.investedAmount + (count * token.price),
-            investorCount: project.investorCount + 1
-        },
-        {
-            where: { id: project.id }
-        }
-    );
+    if (invest == null && donate == null) {
+        await Project.update(
+            {
+                investedAmount: project.investedAmount + (count * token.price),
+                investorCount: project.investorCount + 1
+            },
+            {
+                where: { id: project.id }
+            }
+        );
+    } else {
+        await Project.update(
+            {
+                investedAmount: project.investedAmount + (count * token.price),
+            },
+            {
+                where: { id: project.id }
+            }
+        );
+    }
+    
     await Wallet.update(
         {
             balance: wallet.balance - (count * token.price)
