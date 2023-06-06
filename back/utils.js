@@ -191,6 +191,18 @@ async function buyProjectToken(tokenId, userUuid, count) {
         }
     });
 
+    const inv = await Invest.findOne({
+        include: [{
+            model:Token,
+            where: {
+                projectId: project.id
+            }
+        }],
+        where: {
+            userId: user.id
+        }
+    });
+
     const donate = await Donate.findOne({
         where: {
             projectId: project.id,
@@ -218,7 +230,7 @@ async function buyProjectToken(tokenId, userUuid, count) {
         );
     }
 
-    if (invest == null && donate == null) {
+    if (inv == null && donate == null) {
         await Project.update(
             {
                 investedAmount: project.investedAmount + (count * token.price),
